@@ -14,8 +14,20 @@ const diceRoll = () => {
         diceNum = dice.innerText
         console.log('Rolled a ', diceNum)
         setTimeout(() => {dice.innerText = ''}, 1000)
+        move(mario.position, diceNum)
     }
 }
+
+class Player {
+    constructor(position = 1, money = 0, stars = 0){
+        this.position = position
+        this.money = money
+        this.stars = stars
+    }
+
+}
+
+const mario = new Player()
 
 //grab dice and event listener
 const dice = document.querySelector('.dice')
@@ -41,14 +53,7 @@ let tileNum = 1
 
 //player object
 
-class Player {
-    constructor(position, money, stars){
-        this.position = position
-        this.money = money
-        this.stars = stars
-    }
 
-}
 
 const move = (position, numOfSquares) => {
     startX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-start'))
@@ -103,8 +108,6 @@ const move = (position, numOfSquares) => {
             }
         
     }, 500)}
-
-move(1, 5)
 
 
 
