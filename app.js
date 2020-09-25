@@ -88,6 +88,22 @@ const boardSetup = () => {
 
 boardSetup()
 
+//function that tests what square a player lands on
+const squareCheck = (square) => {
+    if (plusMoney.includes(square)){
+        mario.money += 3
+    } else if (minusMoney.includes(square)){
+        if (mario.money - 2 < 0){
+            mario.money = 0
+        } else {
+            mario.money -= 2
+        }
+    }
+
+    player1Info.innerText = `Mario, Coins: ${mario.money}. Stars: ${mario.stars}`
+}
+//function that checks if player passes a star 
+
 const mario = new Player()
 
 //grab dice and event listener
@@ -166,9 +182,11 @@ const move = (position, numOfSquares) => {
             if (numOfSquares === 0){
                 clearInterval(moving)
                 mario.position = position
+                squareCheck(position)
             }
         
-    }, 500)}
+    }, 500)
+}
 
 
 
