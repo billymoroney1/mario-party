@@ -13,8 +13,10 @@ const diceRoll = () => {
         clearInterval(rolling)
         diceNum = dice.innerText
         console.log('Rolled a ', diceNum)
+        if (diceNum > 0){
+            move(mario.position, diceNum)
+        }
         setTimeout(() => {dice.innerText = ''}, 1000)
-        move(mario.position, diceNum)
     }
 }
 
@@ -49,7 +51,7 @@ let startX
 let endX
 let startY
 let endY
-let tileNum = 1
+let position = 1
 
 //player object
 
@@ -63,34 +65,33 @@ const move = (position, numOfSquares) => {
 
     console.log(startX, endX, startY, endY)
 
-    tileNum = position
     let moving =setInterval(() => {
         
             console.log('interval')
-            if (tileNum < 5){
+            if (position < 5){
                 startX++
                 endX++
                 player1.style.gridColumnStart = `${startX}`
                 player1.style.gridColumnEnd = `${endX}`
-                tileNum++
-            } else if (tileNum < 9){
+                position++
+            } else if (position < 9){
                 startY++
                 endY++
                 player1.style.gridRowStart = `${startY}`
                 player1.style.gridRowEnd = `${endY}`
-                tileNum++
-            } else if (tileNum < 13){
+                position++
+            } else if (position < 13){
                 startX--
                 endX--
                 player1.style.gridColumnStart = `${startX}`
                 player1.style.gridColumnEnd = `${endX}`
-                tileNum++
-            } else if (tileNum < 16){
+                position++
+            } else if (position < 16){
                 startY--
                 endY--
                 player1.style.gridRowStart = `${startY}`
                 player1.style.gridRowEnd = `${endY}`
-                tileNum++
+                position++
             } else {
                 startX = 1
                 endX = 1
@@ -100,11 +101,12 @@ const move = (position, numOfSquares) => {
                 player1.style.gridColumnEnd = `${endX}`
                 player1.style.gridRowStart = `${startY}`
                 player1.style.gridRowEnd = `${endY}`
-                tileNum = 1
+                position = 1
             }
             numOfSquares--
             if (numOfSquares === 0){
                 clearInterval(moving)
+                mario.position = position
             }
         
     }, 500)}
