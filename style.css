@@ -13,6 +13,29 @@ body, html {
     
 }
 
+.player1 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    width: 50px;
+    height: 50px;
+    background-image: url('https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    z-index: 2;
+    justify-self: center;
+    align-self: center;
+}
+
+.gameInfo {
+    grid-column-start: 7;
+    grid-column-end: 9;
+    grid-row-start: 5;
+    grid-row-end: 5;
+    border: 1px solid black;
+}
+
 .dice {
     grid-column-start: 7;
     grid-column-end: 7;
@@ -21,6 +44,8 @@ body, html {
     border: 1px solid black;
     width: 100px;
     height: 100px;
+    text-align: center;
+    
 }
 
 #p1 {
@@ -47,26 +72,47 @@ body, html {
 }
 
 #a1 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
     justify-self: center;
     align-self: center;
+    z-index: 0;
 }
 
 #a2 {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
     justify-self: center;
     align-self: center;
 }
 
 #a3 {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 1;
     justify-self: center;
     align-self: center;
 }
 
 #a4 {
+    grid-column-start: 4;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 1;
     justify-self: center;
     align-self: center;
 }
 
 #a5 {
+    grid-column-start: 5;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 1;
     justify-self: center;
     align-self: center;
 }

@@ -1,5 +1,5 @@
 ## to do
-dice roll + moving images through board
+dice roll + moving images through board (add class to change styling so that squares transfer an image?)
 put info in the center of the screen that contains the money each player has
 create functions that randomly assign styling/functionality to random squares
 create function that randomly chooses a spot for the star
