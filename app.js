@@ -32,54 +32,25 @@ const player1 = document.querySelector('.player1')
 const player2Info = document.querySelector('#p2')
 const player2 = document.querySelector('.player2')
 
-let moveNum = 1
-let moveGridX = 1
-let moveGridY = 1
-//create a function that moves the mario picture clockwise by one square every 500ms
-// const move = () => {
-    
-
-//     setInterval(() => {
-//         console.log('Grid Column Start = ', moveGridX)
-//         console.log('Grid Column End = ', moveGridX)
-//         console.log('GridRowStart = ', moveGridY)
-//         console.log('GridRowEnd = ', moveGridY)
-//         if (moveNum < 5){
-//         player1.style.gridColumnStart = `${moveGridX}`
-//         player1.style.gridColumnEnd = `${moveGridX}`
-//         moveGridX++
-//     } else if (moveNum < 9){
-//         player1.style.gridRowStart = `${moveGridY}`
-//         player1.style.gridRowEnd = `${moveGridY}`
-//         moveGridY++  
-//     } else if (moveNum < 13){
-//         player1.style.gridColumnStart = `${moveGridX}`
-//         player1.style.gridColumnEnd = `${moveGridX}`
-//         moveGridX--
-//     } else if (moveNum < 16){
-//         player1.style.gridRowStart = `${moveGridY}`
-//         player1.style.gridRowEnd = `${moveGridY}`
-//         moveGridY--
-//     } else if (moveNum === 16){
-//         moveGridX = 1
-//         moveGridY = 1
-//         moveNum = 1
-//     }
-//     console.log(moveGridX, moveGridY)
-//     moveNum++
-// }, 500)
-    
-// }
-
-// move()
-
+//variables necessary for move function
 let startX
 let endX
 let startY
 let endY
 let tileNum = 1
 
-const move = () => {
+//player object
+
+class Player {
+    constructor(position, money, stars){
+        this.position = position
+        this.money = money
+        this.stars = stars
+    }
+
+}
+
+const move = (position, numOfSquares) => {
     startX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-start'))
     endX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-end'))
     startY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-start'))
@@ -87,47 +58,53 @@ const move = () => {
 
     console.log(startX, endX, startY, endY)
 
-    setInterval(() => {
-        console.log('interval')
-        if (tileNum < 5){
-            startX++
-            endX++
-            player1.style.gridColumnStart = `${startX}`
-            player1.style.gridColumnEnd = `${endX}`
-            tileNum++
-        } else if (tileNum < 9){
-            startY++
-            endY++
-            player1.style.gridRowStart = `${startY}`
-            player1.style.gridRowEnd = `${endY}`
-            tileNum++
-        } else if (tileNum < 13){
-            startX--
-            endX--
-            player1.style.gridColumnStart = `${startX}`
-            player1.style.gridColumnEnd = `${endX}`
-            tileNum++
-        } else if (tileNum < 16){
-            startY--
-            endY--
-            player1.style.gridRowStart = `${startY}`
-            player1.style.gridRowEnd = `${endY}`
-            tileNum++
-        } else {
-            startX = 1
-            endX = 1
-            startY = 1
-            endY = 1
-            player1.style.gridColumnStart = `${startX}`
-            player1.style.gridColumnEnd = `${endX}`
-            player1.style.gridRowStart = `${startY}`
-            player1.style.gridRowEnd = `${endY}`
-            tileNum = 1
-        }
-    }, 500)
-}
+    tileNum = position
+    let moving =setInterval(() => {
+        
+            console.log('interval')
+            if (tileNum < 5){
+                startX++
+                endX++
+                player1.style.gridColumnStart = `${startX}`
+                player1.style.gridColumnEnd = `${endX}`
+                tileNum++
+            } else if (tileNum < 9){
+                startY++
+                endY++
+                player1.style.gridRowStart = `${startY}`
+                player1.style.gridRowEnd = `${endY}`
+                tileNum++
+            } else if (tileNum < 13){
+                startX--
+                endX--
+                player1.style.gridColumnStart = `${startX}`
+                player1.style.gridColumnEnd = `${endX}`
+                tileNum++
+            } else if (tileNum < 16){
+                startY--
+                endY--
+                player1.style.gridRowStart = `${startY}`
+                player1.style.gridRowEnd = `${endY}`
+                tileNum++
+            } else {
+                startX = 1
+                endX = 1
+                startY = 1
+                endY = 1
+                player1.style.gridColumnStart = `${startX}`
+                player1.style.gridColumnEnd = `${endX}`
+                player1.style.gridRowStart = `${startY}`
+                player1.style.gridRowEnd = `${endY}`
+                tileNum = 1
+            }
+            numOfSquares--
+            if (numOfSquares === 0){
+                clearInterval(moving)
+            }
+        
+    }, 500)}
 
-move()
+move(1, 5)
 
 
 
