@@ -1,6 +1,25 @@
+//need this id for setInterval() to be 
+let rolling
+// create function that rolls dice
+const diceRoll = () => {
+    let diceNum
+    // begin dice rolling if clicked on, this will probably change when i add more to the flow of the game. this is more for testing purp
+    if (dice.innerText === ''){
+        rolling = setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
+        console.log(rolling)
+    } 
+    // if the dice is rolling, grab the value inside and console log it and stop rolling
+    else if (dice.innerText !== ''){
+        clearInterval(rolling)
+        diceNum = dice.innerText
+        console.log('Rolled a ', diceNum)
+        setTimeout(() => {dice.innerText = ''}, 1000)
+    }
+}
+
 //grab dice and event listener
 const dice = document.querySelector('.dice')
-// dice.addEventListener('click', rollDice)
+dice.addEventListener('click', diceRoll)
 
 //game info
 const gameInfo = document.querySelector('.gameInfo')
@@ -26,13 +45,9 @@ const move = () => {
 
 move()
 
-// create function that cycles numbers through dice
-const diceRoll = () => {
-    setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
-    console.log(dice.innerText)
-}
 
-diceRoll()
+
+
 
 
 // let gameOver = false
