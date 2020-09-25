@@ -217,3 +217,15 @@ body, html {
     justify-self: center;
     align-self: center;
 }
+
+.plusMoney {
+    background-color: blue;
+}
+
+.minusMoney {
+    background-color: red;
+}
+
+.star {
+    background-color: gold;
+}

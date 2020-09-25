@@ -29,6 +29,65 @@ class Player {
 
 }
 
+//this function will run when the game is loaded to assign squares with certain properties
+//array of + money squares
+const plusMoney = []
+//array of - money squares
+const minusMoney = []
+//position of star
+let starPos
+
+const tileStyle = (pos, styleClass) => {
+    if (pos < 6){
+        let tileID = '#a' + `${pos}`
+        let tile = document.querySelector(tileID)
+        tile.classList.add(styleClass)
+    } else if (pos < 10){
+        let tileID = '#b' + `${pos}`
+        let tile = document.querySelector(tileID)
+        tile.classList.add(styleClass)
+    } else if (pos < 17){
+        let tileID = '#c' + `${pos}`
+        let tile = document.querySelector(tileID)
+        tile.classList.add(styleClass)      
+    }
+}
+
+const boardSetup = () => {
+    //create 4 + money squares
+    for (let i = 0; i < 4; i++){
+        let pos = Math.floor(Math.random() * 15 + 1)
+        while(plusMoney.includes(pos)){
+            pos = Math.floor(Math.random() * 15 + 1)
+        }
+        plusMoney.push(pos)
+        //change styling of tiles
+        tileStyle(pos, 'plusMoney')  
+    } 
+    //create 4 - money squares, cannot overlap with + money
+    for (let i = 0; i < 4; i++){
+        let pos = Math.floor(Math.random() * 15 + 1)
+        while (plusMoney.includes(pos) || minusMoney.includes(pos)){
+            pos = Math.floor(Math.random() * 15 + 1)
+        }
+        minusMoney.push(pos)
+        tileStyle(pos, 'minusMoney')
+    }
+    //star tile that does not overlap
+    let foundStar = false
+    while (foundStar === false){
+        let pos = Math.floor(Math.random() * 15 + 1)
+        if (plusMoney.includes(pos) === false && minusMoney.includes(pos) === false){
+            starPos = pos
+            foundStar = true
+        }
+    }
+    tileStyle(starPos, 'star')
+    console.log(plusMoney, minusMoney, starPos)
+}
+
+boardSetup()
+
 const mario = new Player()
 
 //grab dice and event listener
