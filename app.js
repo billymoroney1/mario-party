@@ -25,6 +25,7 @@ class Player {
         this.position = position
         this.money = money
         this.stars = stars
+        this.items = []
     }
 
 }
@@ -36,6 +37,8 @@ const plusMoney = []
 const minusMoney = []
 //position of star
 let starPos
+//position of store
+let storePos
 
 const tileStyle = (pos, styleClass) => {
     if (pos < 6){
@@ -83,6 +86,16 @@ const boardSetup = () => {
         }
     }
     tileStyle(starPos, 'star')
+
+    let foundStore = false
+    while (foundStore === false){
+        let pos = Math.floor(Math.random() * 15 + 1)
+        if (plusMoney.includes(pos) === false && minusMoney.includes(pos) === false && starPos !== pos){
+            storePos = pos
+            foundStore = true
+        }
+    }
+    tileStyle(storePos, 'store')
     console.log(plusMoney, minusMoney, starPos)
 }
 
@@ -99,10 +112,10 @@ const squareCheck = (square) => {
             mario.money -= 2
         }
     }
-
-    player1Info.innerText = `Mario, Coins: ${mario.money}. Stars: ${mario.stars}`
+    player1Info.innerText = `Mario \n Coins: ${mario.money} \n Stars: ${mario.stars}`
 }
 //function that checks if player passes a star 
+//needs to clearInterval and restart it with remaining moves when player makes a decision
 
 const mario = new Player()
 
@@ -120,6 +133,9 @@ const player1 = document.querySelector('.player1')
 //player 2 info
 const player2Info = document.querySelector('#p2')
 const player2 = document.querySelector('.player2')
+
+//buttons
+const buttons = document.querySelectorAll('button')
 
 //variables necessary for move function
 let startX
@@ -149,24 +165,28 @@ const move = (position, numOfSquares) => {
                 player1.style.gridColumnStart = `${startX}`
                 player1.style.gridColumnEnd = `${endX}`
                 position++
+                starAndStoreCheck(position)
             } else if (position < 9){
                 startY++
                 endY++
                 player1.style.gridRowStart = `${startY}`
                 player1.style.gridRowEnd = `${endY}`
                 position++
+                starAndStoreCheck(position)
             } else if (position < 13){
                 startX--
                 endX--
                 player1.style.gridColumnStart = `${startX}`
                 player1.style.gridColumnEnd = `${endX}`
                 position++
+                starAndStoreCheck(position)
             } else if (position < 16){
                 startY--
                 endY--
                 player1.style.gridRowStart = `${startY}`
                 player1.style.gridRowEnd = `${endY}`
                 position++
+                starAndStoreCheck(position)
             } else {
                 startX = 1
                 endX = 1
@@ -177,31 +197,96 @@ const move = (position, numOfSquares) => {
                 player1.style.gridRowStart = `${startY}`
                 player1.style.gridRowEnd = `${endY}`
                 position = 1
+                starAndStoreCheck(position)
             }
             numOfSquares--
             if (numOfSquares === 0){
                 clearInterval(moving)
                 mario.position = position
+                starAndStoreCheck(position)
                 squareCheck(position)
             }
         
     }, 500)
 }
 
+const starAndStoreCheck = (pos) => {
+    if (pos = starPos){
+        document.querySelector('p').innerText = "Buy a star for 20 coins?"
+        buttons[0].innerText = 'Yes'
+        buttons[1].innerText = 'No'
+        buttons[0].style.visibility = 'visible'
+        buttons[1].style.visibility = 'visible'
+        //need to remove existing event listeners and place new ones, then put back old event listener when done with this logic
+        buttons[0].removeEventListener('click', diceRoll)
+        buttons[1].removeEventListener('click', chooseItem)
+        buttons[0].addEventListener('click', buyStar)
+        buttons[1].addEventListener('click', declineStar)
+    } else if (pos = storePos){
+        document.querySelector('p').innerText = 'Buy an item?'
+        buttons[0].innerText = 'Green Shell - 5 Coins'
+        buttons[1].innerText = 'No'
+        buttons[0].style.visibility = 'visible'
+        buttons[1].style.visibility = 'visible'
+        //event listener swap that allows for purchase of items
+        buttons[0].removeEventListener('click', diceRoll)
+        buttons[1].removeEventListener('click', chooseItem)
+        buttons[0].addEventListener('click', buyItem)
+        buttons[1].addEventListener('click', declineItem)
+    }
+}
+
+const buyStar = () => {
+    if (mario.money >= 20){
+        mario.money -= 20
+        mario.star += 1
+        //revert game info box
+        buttons[0].removeEventListener('click', buyStar)
+        buttons[1].removeEventListener('click', declineStar)
+        buttons[0].addEventListener('click', diceRoll)
+        buttons[1].addEventListener('click', chooseItem)
+    } else {
+        document.querySelector('p').innerText = 'Not enough cash!'
+        buttons[0].removeEventListener('click', buyStar)
+        buttons[1].removeEventListener('click', declineStar)
+        buttons[0].addEventListener('click', diceRoll)
+        buttons[1].addEventListener('click', chooseItem)
+    }
+}
+const declineStar = () => {
+    buttons[0].removeEventListener('click', buyStar)
+    buttons[1].removeEventListener('click', declineStar)
+    buttons[0].addEventListener('click', diceRoll)
+    buttons[1].addEventListener('click', chooseItem)
+}
+
+const buyItem = () => {
+    if (mario.money >= 5) {
+        mario.money -= 5
+        mario.items.push('greenShell')
+    }
+}
+
+const turnOptions = () => {
+    // change text in game info box
+    document.querySelector('p').innerText = 'Your Turn!'
+    // make the Move and Item buttons appear
+    for (let i = 0; i < buttons.length; i++){
+        buttons[i].style.visibility = 'visible'
+    }
+}
+
+//function to display up to three items where the move and item buttons usually are
 
 
+buttons[0].addEventListener('click', diceRoll)
+// buttons[1].addEventListener('click', chooseItem)
 
-
-
-
-
-// let gameOver = false
-// let p1Turn = true
-// //game loop
-// while (gameOver !== true){
-//     if (p1Turn === true){
-//         gameInfo.innerText = 'Roll!'
-//         //grab the number in the dice at the time of clicking
-//         //loop and change styling of each div (or overlap divs?)
-//     } 
+// let turns = 0
+// while (turns < 20){
+//     // display options in gameinfo panel
+turnOptions()
+//     //use event listener to determine what buttons do
+//     //make buttons disappear until next choice is available
+//     turns++
 // }

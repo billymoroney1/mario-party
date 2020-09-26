@@ -34,6 +34,18 @@ body, html {
     grid-row-start: 5;
     grid-row-end: 5;
     border: 1px solid black;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+   margin-top: 50px;
+   margin-bottom: 50px;
+   visibility: hidden;
 }
 
 .dice {
@@ -228,4 +240,8 @@ body, html {
 
 .star {
     background-color: gold;
+}
+
+.store {
+    background-color: green;
 }
