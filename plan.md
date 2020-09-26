@@ -1,9 +1,15 @@
 ## to do
-place another div inside the game info ke the logic that tests the square a player lands on, and if they pass a star, prompts them to buy it
+make chooseItem function
 
-create an item store tile
+why moving indefinitely after adding the starAndStoreCheck function?
+how to make stop moving until make a decision?
 
-array to contain items (inside player object)
+what can items do?
+how display items to choose from in gameInfo panel?
+
+having difficulty stacking inventory div on top of button divs for swapping
+
+why is there a bug when you try to roll very quickly one after another?
 
 create a computer player and have them roll dice after the player takes a turn
 

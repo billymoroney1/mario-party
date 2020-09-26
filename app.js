@@ -236,6 +236,12 @@ const starAndStoreCheck = (pos) => {
     }
 }
 
+const chooseItem = () => {
+    //make item inventory display
+    // add event listners to items
+    // remove an item from inventory and implement item's effect 
+}
+
 const buyStar = () => {
     if (mario.money >= 20){
         mario.money -= 20

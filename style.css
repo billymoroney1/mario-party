@@ -35,11 +35,14 @@ body, html {
     grid-row-end: 5;
     border: 1px solid black;
     text-align: center;
+    position: relative;
 }
 
 .buttons {
+    position: absolute;
     display: flex;
     justify-content: space-around;
+    z-index: 1;
 }
 
 button {
@@ -244,4 +247,19 @@ button {
 
 .store {
     background-color: green;
+}
+
+.inventory {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    justify-content: space-around;
+}
+
+.items {
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
