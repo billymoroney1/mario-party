@@ -35,20 +35,33 @@ body, html {
     grid-row-end: 5;
     border: 1px solid black;
     text-align: center;
-    position: relative;
 }
 
 .buttons {
-    position: absolute;
+    display: block;
     display: flex;
     justify-content: space-around;
-    z-index: 1;
 }
 
 button {
-   margin-top: 50px;
-   margin-bottom: 50px;
+   margin-top: 25px;
+   margin-bottom: 25px;
    visibility: hidden;
+}
+
+.inventory {
+    z-index: 2;
+    
+}
+
+.items {
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
 }
 
 .dice {
@@ -247,19 +260,4 @@ button {
 
 .store {
     background-color: green;
-}
-
-.inventory {
-    position: absolute;
-    z-index: 2;
-    display: flex;
-    justify-content: space-around;
-}
-
-.items {
-    border: 1px solid black;
-    width: 60px;
-    height: 60px;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }

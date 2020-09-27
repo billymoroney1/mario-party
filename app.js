@@ -6,13 +6,11 @@ const diceRoll = () => {
     // begin dice rolling if clicked on, this will probably change when i add more to the flow of the game. this is more for testing purp
     if (dice.innerText === ''){
         rolling = setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
-        console.log(rolling)
     } 
     // if the dice is rolling, grab the value inside and console log it and stop rolling
     else if (dice.innerText !== ''){
         clearInterval(rolling)
         diceNum = dice.innerText
-        console.log('Rolled a ', diceNum)
         if (diceNum > 0){
             move(mario.position, diceNum)
         }
@@ -96,7 +94,6 @@ const boardSetup = () => {
         }
     }
     tileStyle(storePos, 'store')
-    console.log(plusMoney, minusMoney, starPos)
 }
 
 boardSetup()
@@ -143,10 +140,13 @@ let endX
 let startY
 let endY
 let position = 1
+//variable to allow for restarting movement in star/store check functions
+let remainingSquares
 
 //player object
 
-
+//create this variable (ID for moving setInterval) in global scope so that i can manipulate in other functions
+let moving
 
 const move = (position, numOfSquares) => {
     startX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-start'))
@@ -154,64 +154,71 @@ const move = (position, numOfSquares) => {
     startY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-start'))
     endY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-end'))
 
-    console.log(startX, endX, startY, endY)
-
-    let moving =setInterval(() => {
-        
-            console.log('interval')
-            if (position < 5){
-                startX++
-                endX++
-                player1.style.gridColumnStart = `${startX}`
-                player1.style.gridColumnEnd = `${endX}`
-                position++
-                starAndStoreCheck(position)
-            } else if (position < 9){
-                startY++
-                endY++
-                player1.style.gridRowStart = `${startY}`
-                player1.style.gridRowEnd = `${endY}`
-                position++
-                starAndStoreCheck(position)
-            } else if (position < 13){
-                startX--
-                endX--
-                player1.style.gridColumnStart = `${startX}`
-                player1.style.gridColumnEnd = `${endX}`
-                position++
-                starAndStoreCheck(position)
-            } else if (position < 16){
-                startY--
-                endY--
-                player1.style.gridRowStart = `${startY}`
-                player1.style.gridRowEnd = `${endY}`
-                position++
-                starAndStoreCheck(position)
-            } else {
-                startX = 1
-                endX = 1
-                startY = 1
-                endY = 1
-                player1.style.gridColumnStart = `${startX}`
-                player1.style.gridColumnEnd = `${endX}`
-                player1.style.gridRowStart = `${startY}`
-                player1.style.gridRowEnd = `${endY}`
-                position = 1
-                starAndStoreCheck(position)
-            }
-            numOfSquares--
-            if (numOfSquares === 0){
-                clearInterval(moving)
+    remainingSquares = numOfSquares
+    //need this conditional to prevent the star/item functions from making an additional move when remainingSquares = 0
+    if (remainingSquares !== 0){
+            moving =setInterval(() => {
+            
+                if (position < 5){
+                    startX++
+                    endX++
+                    player1.style.gridColumnStart = `${startX}`
+                    player1.style.gridColumnEnd = `${endX}`
+                    position++
+                    starAndStoreCheck(position)
+                } else if (position < 9){
+                    startY++
+                    endY++
+                    player1.style.gridRowStart = `${startY}`
+                    player1.style.gridRowEnd = `${endY}`
+                    position++
+                    starAndStoreCheck(position)
+                } else if (position < 13){
+                    startX--
+                    endX--
+                    player1.style.gridColumnStart = `${startX}`
+                    player1.style.gridColumnEnd = `${endX}`
+                    position++
+                    starAndStoreCheck(position)
+                } else if (position < 16){
+                    startY--
+                    endY--
+                    player1.style.gridRowStart = `${startY}`
+                    player1.style.gridRowEnd = `${endY}`
+                    position++
+                    starAndStoreCheck(position)
+                } else {
+                    startX = 1
+                    endX = 1
+                    startY = 1
+                    endY = 1
+                    player1.style.gridColumnStart = `${startX}`
+                    player1.style.gridColumnEnd = `${endX}`
+                    player1.style.gridRowStart = `${startY}`
+                    player1.style.gridRowEnd = `${endY}`
+                    position = 1
+                    starAndStoreCheck(position)
+                }
+                numOfSquares--
+                remainingSquares--
                 mario.position = position
-                starAndStoreCheck(position)
-                squareCheck(position)
-            }
-        
-    }, 500)
+
+                if (numOfSquares <= 0){
+                    clearInterval(moving)
+                    mario.position = position
+                    starAndStoreCheck(position)
+                    squareCheck(position)
+                }
+            
+        }, 500)
+    }
 }
 
 const starAndStoreCheck = (pos) => {
-    if (pos = starPos){
+    if (pos === starPos){
+        //stop movement
+        clearInterval(moving)
+        //can i determine how many more squares left to move from here?
         document.querySelector('p').innerText = "Buy a star for 20 coins?"
         buttons[0].innerText = 'Yes'
         buttons[1].innerText = 'No'
@@ -220,9 +227,11 @@ const starAndStoreCheck = (pos) => {
         //need to remove existing event listeners and place new ones, then put back old event listener when done with this logic
         buttons[0].removeEventListener('click', diceRoll)
         buttons[1].removeEventListener('click', chooseItem)
+        //need to restart movement in buyStar, declineStar functions
         buttons[0].addEventListener('click', buyStar)
         buttons[1].addEventListener('click', declineStar)
-    } else if (pos = storePos){
+    } else if (pos === storePos){
+        clearInterval(moving)
         document.querySelector('p').innerText = 'Buy an item?'
         buttons[0].innerText = 'Green Shell - 5 Coins'
         buttons[1].innerText = 'No'
@@ -231,6 +240,7 @@ const starAndStoreCheck = (pos) => {
         //event listener swap that allows for purchase of items
         buttons[0].removeEventListener('click', diceRoll)
         buttons[1].removeEventListener('click', chooseItem)
+        //need to restart movement in buyItem, declineItem functions
         buttons[0].addEventListener('click', buyItem)
         buttons[1].addEventListener('click', declineItem)
     }
@@ -242,35 +252,60 @@ const chooseItem = () => {
     // remove an item from inventory and implement item's effect 
 }
 
+//some utility functions to change info in game info box
+const changeStarToMove = () => {
+    buttons[0].removeEventListener('click', buyStar)
+    buttons[1].removeEventListener('click', declineStar)
+    buttons[0].addEventListener('click', diceRoll)
+    buttons[1].addEventListener('click', chooseItem)
+    buttons[0].innerText = 'Roll'
+    buttons[1].innerText = 'Item'
+    document.querySelector('p').innerText = 'Your move'
+}
 const buyStar = () => {
     if (mario.money >= 20){
         mario.money -= 20
         mario.star += 1
         //revert game info box
-        buttons[0].removeEventListener('click', buyStar)
-        buttons[1].removeEventListener('click', declineStar)
-        buttons[0].addEventListener('click', diceRoll)
-        buttons[1].addEventListener('click', chooseItem)
+        changeStarToMove()
+        move(mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
-        buttons[0].removeEventListener('click', buyStar)
-        buttons[1].removeEventListener('click', declineStar)
-        buttons[0].addEventListener('click', diceRoll)
-        buttons[1].addEventListener('click', chooseItem)
+        changeStarToMove()
+        move(mario.position, remainingSquares)
     }
 }
 const declineStar = () => {
-    buttons[0].removeEventListener('click', buyStar)
-    buttons[1].removeEventListener('click', declineStar)
-    buttons[0].addEventListener('click', diceRoll)
-    buttons[1].addEventListener('click', chooseItem)
+    changeStarToMove()
+    move(mario.position, remainingSquares)
 }
 
+const changeItemToMove = () => {
+    buttons[0].removeEventListener('click', buyItem)
+    buttons[1].removeEventListener('click', declineItem)
+    buttons[0].addEventListener('click', diceRoll)
+    buttons[1].addEventListener('click', chooseItem)
+    buttons[0].innerText = 'Roll'
+    buttons[1].innerText = 'Item'
+    document.querySelector('p').innerText = 'Your move'
+}
 const buyItem = () => {
     if (mario.money >= 5) {
         mario.money -= 5
         mario.items.push('greenShell')
+        //change buttons and event listeners
+        changeItemToMove()
+        move(mario.position, remainingSquares)
+    } else {
+        document.querySelector('p').innerText = 'Not enough cash!'
+        changeItemToMove()
+        move(mario.position, remainingSquares)
     }
+}
+
+const declineItem = () => {
+    changeItemToMove()
+    move(mario.position, remainingSquares)
 }
 
 const turnOptions = () => {
