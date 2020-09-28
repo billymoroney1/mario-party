@@ -18,14 +18,34 @@ body, html {
     grid-column-end: 1;
     grid-row-start: 1;
     grid-row-end: 1;
-    width: 50px;
-    height: 50px;
+    width: 120px;
+    height: 120px;
     background-image: url('https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg');
-    background-size: 20px 20px;
+    background-size: 60px 60px;
     background-repeat: no-repeat;
     z-index: 2;
     justify-self: center;
     align-self: center;
+}
+
+.player2 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    width: 120px;
+    height: 120px;
+    background-image: url('https://d3gqasl9vmjfd8.cloudfront.net/0b2aa3ba-f820-4ed0-8969-281d5dbf7507.png');
+    background-size: 60px 60px;
+    background-repeat: no-repeat;
+    z-index: 2;
+    background-position: top right;
+    justify-self: center;
+    align-self: center;
+}
+
+.greenShell {
+    background-color: green;
 }
 
 .gameInfo {
@@ -35,10 +55,12 @@ body, html {
     grid-row-end: 5;
     border: 1px solid black;
     text-align: center;
+    position: relative;
 }
 
 .buttons {
-    display: block;
+    position: absolute;
+    bottom: 0;
     display: flex;
     justify-content: space-around;
 }
@@ -47,11 +69,16 @@ button {
    margin-top: 25px;
    margin-bottom: 25px;
    visibility: hidden;
+   display: inline-block;
 }
 
 .inventory {
-    z-index: 2;
-    
+    grid-column-start: 7;
+    grid-column-end: 9;
+    grid-row-start: 3;
+    grid-row-end: 3;
+    border: 1px solid black;
+    text-align: center;
 }
 
 .items {
@@ -60,8 +87,7 @@ button {
     height: 60px;
     margin-top: 20px;
     margin-bottom: 20px;
-    display: flex;
-    justify-content: space-around;
+    display: inline-block;
 }
 
 .dice {

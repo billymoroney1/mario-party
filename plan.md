@@ -1,17 +1,25 @@
 ## to do
+retriggering move() after pausing to check a square is causing some wonky shit
+
+fix star and store check functions to happen automatically on computer turn?
+is there an issue where my global position function is preventing proper functionality?
+create a computer player and have them roll dice after the player takes a turn
+
 make chooseItem function
 
-why moving indefinitely after adding the starAndStoreCheck function?
-how to make stop moving until make a decision?
-
 what can items do?
+
 how display items to choose from in gameInfo panel?
 
-having difficulty stacking inventory div on top of button divs for swapping
+how limit game to x amount of turns
 
-why is there a bug when you try to roll very quickly one after another?
+why do i keep having this game loop problem? what makes a game loop not run forever?
 
-create a computer player and have them roll dice after the player takes a turn
+there's just some issue where if both players are moving at once it fucks with the style and positioning 
+
+is there a bug when player rolls 0
+
+haven't really been able to test items, stars, and end game
 
 
 

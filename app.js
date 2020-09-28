@@ -12,7 +12,9 @@ const diceRoll = () => {
         clearInterval(rolling)
         diceNum = dice.innerText
         if (diceNum > 0){
-            move(mario.position, diceNum)
+            move(mario, mario.position, diceNum)
+        } else if (diceNum === 0){
+            computerMove()
         }
         setTimeout(() => {dice.innerText = ''}, 1000)
     }
@@ -28,6 +30,11 @@ class Player {
 
 }
 
+const mario = new Player()
+const donkeyKong = new Player()
+
+
+
 //this function will run when the game is loaded to assign squares with certain properties
 //array of + money squares
 const plusMoney = []
@@ -37,6 +44,10 @@ const minusMoney = []
 let starPos
 //position of store
 let storePos
+//boolean to keep track of which turn
+let playerMove = true
+//number of turns
+let turns = 0
 
 const tileStyle = (pos, styleClass) => {
     if (pos < 6){
@@ -68,7 +79,7 @@ const boardSetup = () => {
     //create 4 - money squares, cannot overlap with + money
     for (let i = 0; i < 4; i++){
         let pos = Math.floor(Math.random() * 15 + 1)
-        while (plusMoney.includes(pos) || minusMoney.includes(pos)){
+        while(plusMoney.includes(pos) || minusMoney.includes(pos)){
             pos = Math.floor(Math.random() * 15 + 1)
         }
         minusMoney.push(pos)
@@ -110,11 +121,11 @@ const squareCheck = (square) => {
         }
     }
     player1Info.innerText = `Mario \n Coins: ${mario.money} \n Stars: ${mario.stars}`
+    //trigger computer move when the final square is tested
+    computerMove()
 }
 //function that checks if player passes a star 
 //needs to clearInterval and restart it with remaining moves when player makes a decision
-
-const mario = new Player()
 
 //grab dice and event listener
 const dice = document.querySelector('.dice')
@@ -134,6 +145,9 @@ const player2 = document.querySelector('.player2')
 //buttons
 const buttons = document.querySelectorAll('button')
 
+buttons[0].addEventListener('click', diceRoll)
+// buttons[1].addEventListener('click', chooseItem)
+
 //variables necessary for move function
 let startX
 let endX
@@ -148,13 +162,13 @@ let remainingSquares
 //create this variable (ID for moving setInterval) in global scope so that i can manipulate in other functions
 let moving
 
-const move = (position, numOfSquares) => {
-    startX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-start'))
-    endX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-end'))
-    startY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-start'))
-    endY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-end'))
-
-    remainingSquares = numOfSquares
+const move = (character, position, numOfSquares) => {
+    if (character === mario){
+        startX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-start'))
+        endX = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-column-end'))
+        startY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-start'))
+        endY = parseInt(window.getComputedStyle(player1).getPropertyValue('grid-row-end'))
+        remainingSquares = numOfSquares
     //need this conditional to prevent the star/item functions from making an additional move when remainingSquares = 0
     if (remainingSquares !== 0){
             moving =setInterval(() => {
@@ -201,18 +215,139 @@ const move = (position, numOfSquares) => {
                 }
                 numOfSquares--
                 remainingSquares--
-                mario.position = position
+                if (character === mario){
+                    mario.position = position
+                } else if (character === donkeyKong){
+                    donkeyKong.position = position
+                }
 
                 if (numOfSquares <= 0){
                     clearInterval(moving)
-                    mario.position = position
+                        if (character === mario){
+                        mario.position = position
+                    } else if (character === donkeyKong){
+                        donkeyKong.position = position
+                    }
                     starAndStoreCheck(position)
                     squareCheck(position)
                 }
             
         }, 500)
     }
+    }
 }
+
+const computerStoreStarCheck = () => {
+    if (donkeyKong.position === starPos){
+        if (donkeyKong.money >= 20){
+            donkeyKong.money -= 20
+            donkeyKong.stars += 1
+        } else if (donkeyKong.position === storePos){
+            if (donkeyKong.money >= 5){
+                donkeyKong.money -= 5
+                donkeyKong.items.push('greenShell')
+                //make sure donkey kong will use the item at the start of their turn
+            }
+        }
+    }
+}
+
+const computerSquareCheck = () => {
+    if (plusMoney.includes(donkeyKong.position)){
+        donkeyKong.money += 3
+    } else if (minusMoney.includes(donkeyKong.position)){
+        donkeyKong.money -= 3
+    }
+
+    player2Info.innerText = `Donkey Kong \n Coins: ${donkeyKong.money} \n Stars: ${donkeyKong.stars}`
+}
+
+//function to see if donkey kong has any items, and if he does, use one
+
+const computerItemCheck = () => {
+    if (donkeyKong.items.includes('greenShell')){
+        mario.money -= 5
+        donkeyKong.items.pop()
+        console.log('donkey kong uses a shell')
+    }
+}
+
+let dkMoving
+const computerMove = () => {
+    computerItemCheck()
+    let diceNum = Math.floor(Math.random() * 10)
+    console.log('Donkey kong rolled a ', diceNum)
+    startX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-start'))
+    endX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-end'))
+    startY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-start'))
+    endY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-end'))
+
+        if (diceNum !== 0){
+            dkMoving = setInterval(() => {
+            
+                if (donkeyKong.position < 5){
+                    startX++
+                    endX++
+                    player2.style.gridColumnStart = `${startX}`
+                    player2.style.gridColumnEnd = `${endX}`
+                    donkeyKong.position++
+                    //computer store check?
+                    computerStoreStarCheck()
+                } else if (donkeyKong.position < 9){
+                    startY++
+                    endY++
+                    player2.style.gridRowStart = `${startY}`
+                    player2.style.gridRowEnd = `${endY}`
+                    donkeyKong.position++
+                    //computer store check?
+                    computerStoreStarCheck()
+                } else if (donkeyKong.position < 13){
+                    startX--
+                    endX--
+                    player2.style.gridColumnStart = `${startX}`
+                    player2.style.gridColumnEnd = `${endX}`
+                    donkeyKong.position++
+                    computerStoreStarCheck()
+                    // computer store check?
+                } else if (donkeyKong.position < 16){
+                    startY--
+                    endY--
+                    player2.style.gridRowStart = `${startY}`
+                    player2.style.gridRowEnd = `${endY}`
+                    donkeyKong.position++
+                    computerStoreStarCheck()
+                    //computer store check?
+                } else {
+                    startX = 1
+                    endX = 1
+                    startY = 1
+                    endY = 1
+                    player2.style.gridColumnStart = `${startX}`
+                    player2.style.gridColumnEnd = `${endX}`
+                    player2.style.gridRowStart = `${startY}`
+                    player2.style.gridRowEnd = `${endY}`
+                    donkeyKong.position = 1
+                    //computer store check?
+                    computerStoreStarCheck()
+                }
+                diceNum--
+
+                if (diceNum <= 0){
+                    clearInterval(dkMoving)
+                    //computer store and square check?
+                    computerStoreStarCheck()
+                    computerSquareCheck()
+                }
+            
+        }, 500)
+        turns++
+        //put end game process hear
+        if (turns === 20){
+            document.querySelector('gameInfo').innerText = 'Game Over'
+        }
+    }
+}
+
 
 const starAndStoreCheck = (pos) => {
     if (pos === starPos){
@@ -246,10 +381,17 @@ const starAndStoreCheck = (pos) => {
     }
 }
 
+//use green shell if available
 const chooseItem = () => {
-    //make item inventory display
-    // add event listners to items
-    // remove an item from inventory and implement item's effect 
+    let items = document.querySelectorAll('.items')
+    for (let i = items.length - 1; i >= 0; i--){
+        if (items[i].classList.includes('greenShell')){
+            donkeyKong.money -= 3
+            items[i].classList.remove('greenShell')
+            mario.items.pop()
+            i = -1
+        }
+    }
 }
 
 //some utility functions to change info in game info box
@@ -268,16 +410,16 @@ const buyStar = () => {
         mario.star += 1
         //revert game info box
         changeStarToMove()
-        move(mario.position, remainingSquares)
+        move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         changeStarToMove()
-        move(mario.position, remainingSquares)
+        move(mario, mario.position, remainingSquares)
     }
 }
 const declineStar = () => {
     changeStarToMove()
-    move(mario.position, remainingSquares)
+    move(mario, mario.position, remainingSquares)
 }
 
 const changeItemToMove = () => {
@@ -289,23 +431,39 @@ const changeItemToMove = () => {
     buttons[1].innerText = 'Item'
     document.querySelector('p').innerText = 'Your move'
 }
+
 const buyItem = () => {
     if (mario.money >= 5) {
         mario.money -= 5
         mario.items.push('greenShell')
+        //function to update inventory div
+        fillInventory()
         //change buttons and event listeners
         changeItemToMove()
-        move(mario.position, remainingSquares)
+        move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         changeItemToMove()
-        move(mario.position, remainingSquares)
+        move(mario, mario.position, remainingSquares)
     }
 }
 
+
+const fillInventory = () => {
+    let items = document.querySelectorAll('.items')
+    console.log(items[0].classList)
+    for (let i = 0; i < items.length; i++){
+        if (items[i].classList !== 'greenShell'){
+            items[i].classList.add('greenShell')
+            i = items.length
+        }
+    }
+}
+
+
 const declineItem = () => {
     changeItemToMove()
-    move(mario.position, remainingSquares)
+    move(mario, mario.position, remainingSquares)
 }
 
 const turnOptions = () => {
@@ -317,17 +475,7 @@ const turnOptions = () => {
     }
 }
 
+turnOptions()
+
 //function to display up to three items where the move and item buttons usually are
 
-
-buttons[0].addEventListener('click', diceRoll)
-// buttons[1].addEventListener('click', chooseItem)
-
-// let turns = 0
-// while (turns < 20){
-//     // display options in gameinfo panel
-turnOptions()
-//     //use event listener to determine what buttons do
-//     //make buttons disappear until next choice is available
-//     turns++
-// }
