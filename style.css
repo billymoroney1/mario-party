@@ -45,7 +45,8 @@ body, html {
 }
 
 .greenShell {
-    background-color: green;
+    background-image: url('https://www.mariowiki.com/images/9/94/GreenShell_-_MarioPartyStarRush.png');
+    background-size: cover;
 }
 
 .gameInfo {
@@ -73,20 +74,26 @@ button {
 }
 
 .inventory {
-    grid-column-start: 7;
-    grid-column-end: 9;
-    grid-row-start: 3;
-    grid-row-end: 3;
-    border: 1px solid black;
+    text-align: center;
+}
+
+.DKinventory {
     text-align: center;
 }
 
 .items {
     border: 1px solid black;
-    width: 60px;
-    height: 60px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.DKitems {
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    margin-top: 15px;
     display: inline-block;
 }
 
@@ -103,7 +110,7 @@ button {
     font-size: 45px;    
 }
 
-#p1 {
+#player1Info {
     grid-column-start: 7;
     grid-column-end: 9;
     grid-row-start: 1;
@@ -111,7 +118,7 @@ button {
     border: 1px solid black;
 }
 
-#p2 {
+#player2Info {
     grid-column-start: 7;
     grid-column-end: 9;
     grid-row-start: 2;

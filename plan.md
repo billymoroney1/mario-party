@@ -2,21 +2,20 @@
 
 can i put some kind of gif thing in the middle of the board based on what action is happening
 
-make chooseItem function
-
-what can items do?
-
-how display items to choose from in gameInfo panel?
-
-how limit game to x amount of turns
-
 there's just some issue where if both players are moving at once it fucks with the style and positioning 
 
-haven't really been able to test items, stars, and end game
+animation of character bumping dice
 
------------------
+put inventory in each player box
 
-donkey kong moves before waiting for user to pick whether to buy a star or item if they land on star or store squares
+get picture of green shell to replace background color
+
+add some kind of 'minigame' (random event for now) that dictates money gained or lost in between turns
+
+add magic lamp
+
+make it visually clear when donkey kong buys item and star?
+
 
 
 

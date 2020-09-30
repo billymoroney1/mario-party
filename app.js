@@ -259,6 +259,7 @@ const computerStoreStarCheck = () => {
             if (donkeyKong.money >= 5){
                 donkeyKong.money -= 5
                 donkeyKong.items.push('greenShell')
+                fillInventory('donkeyKong')
                 console.log('donkey kong buys a shell')
                 //make sure donkey kong will use the item at the start of their turn
             }
@@ -284,9 +285,22 @@ const computerSquareCheck = () => {
 
 const computerItemCheck = () => {
     if (donkeyKong.items.includes('greenShell')){
-        mario.money -= 5
+        if (mario.money - 5 < 0){
+            mario.money = 0
+        } else {
+            mario.money -= 5
+        }
         donkeyKong.items.pop()
-        console.log('donkey kong uses a shell')
+        let items = document.querySelectorAll('.DKitems')
+    for (let i = items.length - 1; i >= 0; i--){
+        if (items[i].classList.contains('greenShell')){
+            items[i].classList.remove('greenShell')
+            donkeyKong.items.pop()
+            i = -1
+            updateInfo('donkeyKong')
+        }
+    }
+    console.log('donkey kong uses an item')
     }
     updateInfo('donkeyKong')
     updateInfo('mario')
@@ -467,7 +481,7 @@ const buyItem = () => {
         mario.money -= 5
         mario.items.push('greenShell')
         //function to update inventory div
-        fillInventory()
+        fillInventory('mario')
         //change buttons and event listeners
         changeItemToMove()
         move(mario, mario.position, remainingSquares)
@@ -480,13 +494,24 @@ const buyItem = () => {
 }
 
 
-const fillInventory = () => {
-    let items = document.querySelectorAll('.items')
-    console.log(items[0].classList)
-    for (let i = 0; i < items.length; i++){
-        if (items[i].classList.contains('greenShell') !== true){
-            items[i].classList.add('greenShell')
-            i = items.length
+const fillInventory = (character) => {
+    if (character === 'mario'){
+        let items = document.querySelectorAll('.items')
+        console.log(items[0].classList)
+        for (let i = 0; i < items.length; i++){
+            if (items[i].classList.contains('greenShell') !== true){
+                items[i].classList.add('greenShell')
+                i = items.length
+            }
+        }
+    } else if (character === 'donkeyKong'){
+        let items = document.querySelectorAll('.DKitems')
+        console.log(items)
+        for (let i = 0; i < items.length; i++){
+            if (items[i].classList.contains('greenShell') !== true){
+                items[i].classList.add('greenShell')
+                i = items.length
+            }
         }
     }
 }
