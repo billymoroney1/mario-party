@@ -6,6 +6,8 @@ const diceRoll = () => {
     // begin dice rolling if clicked on, this will probably change when i add more to the flow of the game. this is more for testing purp
     if (dice.innerText === ''){
         rolling = setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
+        //make mario appear under dice
+        document.querySelector('.testPlayer').style.backgroundImage = 'url("https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg")'
     } 
     // if the dice is rolling, grab the value inside and console log it and stop rolling
     else if (dice.innerText !== ''){
@@ -19,7 +21,10 @@ const diceRoll = () => {
             diceNum = dice.innerText
         }, 800)
         //delay enough time for the move total to be clearly seen before character moves
-        setTimeout(() => {dice.innerText = ''}, 2000)
+        setTimeout(() => {
+            dice.innerText = ''
+            document.querySelector('.testPlayer').style.backgroundImage = ''  
+    }, 2000)
         setTimeout(() => {
             if (diceNum > 0){
                 move(mario, mario.position, diceNum)

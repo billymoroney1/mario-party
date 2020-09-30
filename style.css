@@ -212,13 +212,10 @@ button {
     grid-row-end: 4;
     width: 50px;
     height: 50px;
-    background-image: url('https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg');
     background-size: 50px 50px;
     background-repeat: no-repeat;
     justify-self: center;
-    align-self: center;
-    background-image: url('https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg');
-    
+    align-self: center;    
 }
 
 .playerJump {
