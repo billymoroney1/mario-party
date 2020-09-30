@@ -9,15 +9,31 @@ const diceRoll = () => {
     } 
     // if the dice is rolling, grab the value inside and console log it and stop rolling
     else if (dice.innerText !== ''){
-        clearInterval(rolling)
-        console.log(dice.innerText)
-        diceNum = dice.innerText
-        if (diceNum > 0){
-            move(mario, mario.position, diceNum)
-        } else if (diceNum === '0'){
-            computerMove()
-        }
-        setTimeout(() => {dice.innerText = ''}, 1000)
+        //grab the player under the dice and add the jump animation
+        document.querySelector('.testPlayer').classList.add('playerJump')
+        //make the dice roll at the top of the roll
+        setTimeout(() => {
+            document.querySelector('.dice').classList.add('diceRoll')
+            clearInterval(rolling)
+            console.log(dice.innerText)
+            diceNum = dice.innerText
+        }, 800)
+        //delay enough time for the move total to be clearly seen before character moves
+        setTimeout(() => {dice.innerText = ''}, 2000)
+        setTimeout(() => {
+            if (diceNum > 0){
+                move(mario, mario.position, diceNum)
+            } else if (diceNum === '0'){
+                computerMove()
+            }
+        }, 2000)
+        
+        //remove the animation classes
+        setTimeout(() => {
+            document.querySelector('.testPlayer').classList.remove('playerJump')
+            document.querySelector('.dice').classList.remove('diceRoll')
+        }, 4000)
+        
     }
 }
 

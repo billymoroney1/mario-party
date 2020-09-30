@@ -109,8 +109,44 @@ button {
     line-height: 100px;
     font-size: 45px;
     justify-self: center;
-    align-self: end;    
+    align-self: end;
 }
+
+.diceRoll {
+    animation-name: rotate-in-center;
+    animation-duration: 1s;
+}
+
+.rotate-in-center {
+	-webkit-animation: rotate-in-center 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: rotate-in-center 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes rotate-in-center {
+    0% {
+      -webkit-transform: rotate(-360deg);
+              transform: rotate(-360deg);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: rotate(0);
+              transform: rotate(0);
+      opacity: 1;
+    }
+  }
+  @keyframes rotate-in-center {
+    0% {
+      -webkit-transform: rotate(-360deg);
+              transform: rotate(-360deg);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: rotate(0);
+              transform: rotate(0);
+      opacity: 1;
+    }
+  }
+  
 
 #player1Info {
     grid-column-start: 7;
@@ -182,6 +218,10 @@ button {
     justify-self: center;
     align-self: center;
     background-image: url('https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg');
+    
+}
+
+.playerJump {
     animation-name: slide-top;
     animation-duration: 0.8s;
 }
