@@ -37,7 +37,7 @@ const diceRoll = () => {
         setTimeout(() => {
             document.querySelector('.testPlayer').classList.remove('playerJump')
             document.querySelector('.dice').classList.remove('diceRoll')
-        }, 4000)
+        }, 3000)
         
     }
 }
@@ -329,78 +329,105 @@ const computerItemCheck = () => {
 
 let dkMoving
 const computerMove = () => {
-    computerItemCheck()
-    let diceNum = Math.floor(Math.random() * 10)
-    console.log('Donkey kong rolled a ', diceNum)
-    startX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-start'))
-    endX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-end'))
-    startY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-start'))
-    endY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-end'))
+    //make donkey kong appear beneath dice
+    document.querySelector('.testPlayer').style.backgroundImage = "url('https://d3gqasl9vmjfd8.cloudfront.net/0b2aa3ba-f820-4ed0-8969-281d5dbf7507.png')"
+    //make dice roll
+    let rolling
+    let diceNum
+    //make dice roll
+    rolling = setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
+    setTimeout(() => {
+        //make donkey kong jump
+        document.querySelector('.testPlayer').classList.add('playerJump')
+    }, 1000)
+    setTimeout(() => {
+        dice.classList.add('diceRoll')
+        clearInterval(rolling)
+        diceNum = dice.innerText
+    }, 1800)
+    //clear dice text, donkey kong image, animation classes
+    setTimeout(() => {
+        dice.innerText = ''
+        document.querySelector('.testPlayer').classList.remove('playerJump')
+        dice.classList.remove('diceRoll')
+        document.querySelector('.testPlayer').style.backgroundImage = ""
+    }, 3000)
+    //delay move for after all of this completes
+    setTimeout(() => {
+        computerItemCheck()
+        console.log('Donkey kong rolled a ', diceNum)
+        startX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-start'))
+        endX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-end'))
+        startY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-start'))
+        endY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-end'))
 
-        if (diceNum !== 0){
-            dkMoving = setInterval(() => {
-            
-                if (donkeyKong.position < 5){
-                    startX++
-                    endX++
-                    player2.style.gridColumnStart = `${startX}`
-                    player2.style.gridColumnEnd = `${endX}`
-                    donkeyKong.position++
-                    //computer store check?
-                    computerStoreStarCheck()
-                } else if (donkeyKong.position < 9){
-                    startY++
-                    endY++
-                    player2.style.gridRowStart = `${startY}`
-                    player2.style.gridRowEnd = `${endY}`
-                    donkeyKong.position++
-                    //computer store check?
-                    computerStoreStarCheck()
-                } else if (donkeyKong.position < 13){
-                    startX--
-                    endX--
-                    player2.style.gridColumnStart = `${startX}`
-                    player2.style.gridColumnEnd = `${endX}`
-                    donkeyKong.position++
-                    computerStoreStarCheck()
-                    // computer store check?
-                } else if (donkeyKong.position < 16){
-                    startY--
-                    endY--
-                    player2.style.gridRowStart = `${startY}`
-                    player2.style.gridRowEnd = `${endY}`
-                    donkeyKong.position++
-                    computerStoreStarCheck()
-                    //computer store check?
-                } else {
-                    startX = 1
-                    endX = 1
-                    startY = 1
-                    endY = 1
-                    player2.style.gridColumnStart = `${startX}`
-                    player2.style.gridColumnEnd = `${endX}`
-                    player2.style.gridRowStart = `${startY}`
-                    player2.style.gridRowEnd = `${endY}`
-                    donkeyKong.position = 1
-                    //computer store check?
-                    computerStoreStarCheck()
-                }
-                diceNum--
+            if (diceNum !== '0'){
+                console.log('dk diceNum not equal to 0')
+                dkMoving = setInterval(() => {
+                
+                    if (donkeyKong.position < 5){
+                        startX++
+                        endX++
+                        player2.style.gridColumnStart = `${startX}`
+                        player2.style.gridColumnEnd = `${endX}`
+                        donkeyKong.position++
+                        //computer store check?
+                        computerStoreStarCheck()
+                    } else if (donkeyKong.position < 9){
+                        startY++
+                        endY++
+                        player2.style.gridRowStart = `${startY}`
+                        player2.style.gridRowEnd = `${endY}`
+                        donkeyKong.position++
+                        //computer store check?
+                        computerStoreStarCheck()
+                    } else if (donkeyKong.position < 13){
+                        startX--
+                        endX--
+                        player2.style.gridColumnStart = `${startX}`
+                        player2.style.gridColumnEnd = `${endX}`
+                        donkeyKong.position++
+                        computerStoreStarCheck()
+                        // computer store check?
+                    } else if (donkeyKong.position < 16){
+                        startY--
+                        endY--
+                        player2.style.gridRowStart = `${startY}`
+                        player2.style.gridRowEnd = `${endY}`
+                        donkeyKong.position++
+                        computerStoreStarCheck()
+                        //computer store check?
+                    } else {
+                        startX = 1
+                        endX = 1
+                        startY = 1
+                        endY = 1
+                        player2.style.gridColumnStart = `${startX}`
+                        player2.style.gridColumnEnd = `${endX}`
+                        player2.style.gridRowStart = `${startY}`
+                        player2.style.gridRowEnd = `${endY}`
+                        donkeyKong.position = 1
+                        //computer store check?
+                        computerStoreStarCheck()
+                    }
+                    diceNum--
 
-                if (diceNum <= 0){
-                    clearInterval(dkMoving)
-                    //computer store and square check?
-                    computerSquareCheck()
-                }
-            
-        }, 500)
-        turns++
-        //put end game process hear
-        console.log('Turns: ', turns)
-        if (turns === 20){
-            document.querySelector('gameInfo').innerText = 'Game Over'
+                    if (diceNum <= 0){
+                        clearInterval(dkMoving)
+                        //computer store and square check?
+                        computerSquareCheck()
+                    }
+                
+            }, 500)
+            turns++
+            //put end game process hear
+            console.log('dk diceNum: ', diceNum)
+            console.log('Turns: ', turns)
+            if (turns === 20){
+                document.querySelector('gameInfo').innerText = 'Game Over'
+            }
         }
-    }
+    }, 3000)
 }
 
 
