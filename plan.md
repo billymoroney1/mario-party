@@ -1,9 +1,6 @@
 ## to do
-retriggering move() after pausing to check a square is causing some wonky shit
 
-fix star and store check functions to happen automatically on computer turn?
-is there an issue where my global position function is preventing proper functionality?
-create a computer player and have them roll dice after the player takes a turn
+can i put some kind of gif thing in the middle of the board based on what action is happening
 
 make chooseItem function
 
@@ -13,13 +10,13 @@ how display items to choose from in gameInfo panel?
 
 how limit game to x amount of turns
 
-why do i keep having this game loop problem? what makes a game loop not run forever?
-
 there's just some issue where if both players are moving at once it fucks with the style and positioning 
 
-is there a bug when player rolls 0
-
 haven't really been able to test items, stars, and end game
+
+-----------------
+
+donkey kong moves before waiting for user to pick whether to buy a star or item if they land on star or store squares
 
 
 

@@ -10,10 +10,11 @@ const diceRoll = () => {
     // if the dice is rolling, grab the value inside and console log it and stop rolling
     else if (dice.innerText !== ''){
         clearInterval(rolling)
+        console.log(dice.innerText)
         diceNum = dice.innerText
         if (diceNum > 0){
             move(mario, mario.position, diceNum)
-        } else if (diceNum === 0){
+        } else if (diceNum === '0'){
             computerMove()
         }
         setTimeout(() => {dice.innerText = ''}, 1000)
@@ -109,10 +110,18 @@ const boardSetup = () => {
 
 boardSetup()
 
+const updateInfo = (character) => {
+    if (character === 'mario'){
+        player1Info.innerText = `Mario \n Coins: ${mario.money} \n Stars: ${mario.stars}`
+    } else if (character === 'donkeyKong'){
+        player2Info.innerText = `Donkey Kong \n Coins: ${donkeyKong.money} \n Stars: ${donkeyKong.stars}`
+    }
+}
+
 //function that tests what square a player lands on
 const squareCheck = (square) => {
     if (plusMoney.includes(square)){
-        mario.money += 3
+        mario.money += 50
     } else if (minusMoney.includes(square)){
         if (mario.money - 2 < 0){
             mario.money = 0
@@ -228,8 +237,11 @@ const move = (character, position, numOfSquares) => {
                     } else if (character === donkeyKong){
                         donkeyKong.position = position
                     }
-                    starAndStoreCheck(position)
-                    squareCheck(position)
+                    if (position === storePos || position === starPos){
+                        starAndStoreCheck(position, true)
+                    } else {
+                        squareCheck(position)
+                    }
                 }
             
         }, 500)
@@ -242,24 +254,30 @@ const computerStoreStarCheck = () => {
         if (donkeyKong.money >= 20){
             donkeyKong.money -= 20
             donkeyKong.stars += 1
-        } else if (donkeyKong.position === storePos){
+        } 
+    } else if (donkeyKong.position === storePos){
             if (donkeyKong.money >= 5){
                 donkeyKong.money -= 5
                 donkeyKong.items.push('greenShell')
+                console.log('donkey kong buys a shell')
                 //make sure donkey kong will use the item at the start of their turn
             }
         }
+        updateInfo('donkeyKong')
     }
-}
+
 
 const computerSquareCheck = () => {
     if (plusMoney.includes(donkeyKong.position)){
-        donkeyKong.money += 3
+        donkeyKong.money += 50
     } else if (minusMoney.includes(donkeyKong.position)){
-        donkeyKong.money -= 3
+        if (donkeyKong.money - 2 < 0) {
+            donkeyKong.money = 0
+        } else {
+            donkeyKong.money -= 2
+        }
     }
-
-    player2Info.innerText = `Donkey Kong \n Coins: ${donkeyKong.money} \n Stars: ${donkeyKong.stars}`
+    updateInfo('donkeyKong')
 }
 
 //function to see if donkey kong has any items, and if he does, use one
@@ -270,6 +288,8 @@ const computerItemCheck = () => {
         donkeyKong.items.pop()
         console.log('donkey kong uses a shell')
     }
+    updateInfo('donkeyKong')
+    updateInfo('mario')
 }
 
 let dkMoving
@@ -335,13 +355,13 @@ const computerMove = () => {
                 if (diceNum <= 0){
                     clearInterval(dkMoving)
                     //computer store and square check?
-                    computerStoreStarCheck()
                     computerSquareCheck()
                 }
             
         }, 500)
         turns++
         //put end game process hear
+        console.log('Turns: ', turns)
         if (turns === 20){
             document.querySelector('gameInfo').innerText = 'Game Over'
         }
@@ -349,7 +369,7 @@ const computerMove = () => {
 }
 
 
-const starAndStoreCheck = (pos) => {
+const starAndStoreCheck = (pos, lastMove = false) => {
     if (pos === starPos){
         //stop movement
         clearInterval(moving)
@@ -365,6 +385,9 @@ const starAndStoreCheck = (pos) => {
         //need to restart movement in buyStar, declineStar functions
         buttons[0].addEventListener('click', buyStar)
         buttons[1].addEventListener('click', declineStar)
+        if (lastMove === true){
+            computerMove()
+        }
     } else if (pos === storePos){
         clearInterval(moving)
         document.querySelector('p').innerText = 'Buy an item?'
@@ -378,6 +401,9 @@ const starAndStoreCheck = (pos) => {
         //need to restart movement in buyItem, declineItem functions
         buttons[0].addEventListener('click', buyItem)
         buttons[1].addEventListener('click', declineItem)
+        if (lastMove === true){
+            computerMove()
+        }
     }
 }
 
@@ -385,11 +411,14 @@ const starAndStoreCheck = (pos) => {
 const chooseItem = () => {
     let items = document.querySelectorAll('.items')
     for (let i = items.length - 1; i >= 0; i--){
-        if (items[i].classList.includes('greenShell')){
+        if (items[i].classList.contains('greenShell')){
+            console.log('donkeyKong.money ', donkeyKong.money)
             donkeyKong.money -= 3
+            console.log('donkeyKong.money ', donkeyKong.money)
             items[i].classList.remove('greenShell')
             mario.items.pop()
             i = -1
+            updateInfo('donkeyKong')
         }
     }
 }
@@ -407,9 +436,10 @@ const changeStarToMove = () => {
 const buyStar = () => {
     if (mario.money >= 20){
         mario.money -= 20
-        mario.star += 1
+        mario.stars += 1
         //revert game info box
         changeStarToMove()
+        updateInfo('mario')
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
@@ -446,6 +476,7 @@ const buyItem = () => {
         changeItemToMove()
         move(mario, mario.position, remainingSquares)
     }
+    updateInfo('mario')
 }
 
 
@@ -453,7 +484,7 @@ const fillInventory = () => {
     let items = document.querySelectorAll('.items')
     console.log(items[0].classList)
     for (let i = 0; i < items.length; i++){
-        if (items[i].classList !== 'greenShell'){
+        if (items[i].classList.contains('greenShell') !== true){
             items[i].classList.add('greenShell')
             i = items.length
         }
