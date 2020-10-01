@@ -1,8 +1,6 @@
 ## to do
 
 add pictures or animation to center of board for:
-    mario using item
-    donkey kong using item
     mario gaining money
     mario losing money
     donkey kong gaining money
@@ -10,6 +8,8 @@ add pictures or animation to center of board for:
     mario not having enough money for item
 
 make dk wait to move until you complete your choice to buy an item or star
+
+why is donkey kong move lagging
 
 change what shows in gameInfo box when it's time to hit move again
 

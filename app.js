@@ -354,7 +354,7 @@ const computerItemCheck = () => {
 
 let dkMoving
 const computerRoll = () => {
-    
+    computerItemCheck()
     //make donkey kong appear beneath dice
     document.querySelector('.testPlayer').style.backgroundImage = "url('https://d3gqasl9vmjfd8.cloudfront.net/0b2aa3ba-f820-4ed0-8969-281d5dbf7507.png')"
     //make dice roll
@@ -383,7 +383,6 @@ const computerRoll = () => {
 }
 const computerMove = (diceNum) => {
     setTimeout(() => {
-        computerItemCheck()
         console.log('Donkey kong rolled a ', diceNum)
         startX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-start'))
         endX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-end'))
@@ -524,6 +523,7 @@ const chooseItem = () => {
     let items = document.querySelectorAll('.items')
     for (let i = items.length - 1; i >= 0; i--){
         if (items[i].classList.contains('greenShell')){
+            gifBox.style.backgroundImage = 'url("https://pa1.narvii.com/6357/276364aba4b4f524766d1252bd53386cd4792917_00.gif")'
             console.log('donkeyKong.money ', donkeyKong.money)
             donkeyKong.money -= 3
             console.log('donkeyKong.money ', donkeyKong.money)
@@ -531,6 +531,9 @@ const chooseItem = () => {
             mario.items.pop()
             i = -1
             updateInfo('donkeyKong')
+            setTimeout(() => {
+                gifBox.style.backgroundImage = ""
+            }, 1500)
         }
     }
 }
