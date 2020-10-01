@@ -8,6 +8,8 @@ const diceRoll = () => {
         rolling = setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
         //make mario appear under dice
         document.querySelector('.testPlayer').style.backgroundImage = 'url("https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg")'
+        //make items button disappear
+        buttons[1].style.visibility = 'hidden'
     } 
     // if the dice is rolling, grab the value inside and console log it and stop rolling
     else if (dice.innerText !== ''){
@@ -35,6 +37,7 @@ const diceRoll = () => {
         gameInfo.style.visibility = 'hidden'
         buttons[0].style.visibility = 'hidden'
         buttons[1].style.visibility = 'hidden'
+        document.querySelector('p').style.visibility = 'hidden'
         }, 2000)
         
         //remove the animation classes
@@ -468,13 +471,11 @@ const computerMove = (diceNum) => {
             gameInfo.style.visibility = 'visible'
             buttons[0].style.visibility = 'visible'
             buttons[1].style.visibility = 'visible'
+            document.querySelector('p').style.visibility = 'hidden'
         }
     }, 3000)
 }
     
-
-
-
 const starAndStoreCheck = (pos, lastMove = false) => {
     if (pos === starPos){
         //stop movement
@@ -500,6 +501,8 @@ const starAndStoreCheck = (pos, lastMove = false) => {
     } else if (pos === storePos){
         clearInterval(moving)
         document.querySelector('p').innerText = 'Buy an item?'
+        document.querySelector('p').style.visibility = 'visible'
+        gameInfo.style.visibility = 'visible'
         buttons[0].innerText = 'Green Shell - 5 Coins'
         buttons[1].innerText = 'No'
         buttons[0].style.visibility = 'visible'

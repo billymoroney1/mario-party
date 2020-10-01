@@ -17,8 +17,6 @@ add some kind of 'minigame' (random event for now) that dictates money gained or
 
 make playerInfo text into pictures of some sort
 
-change button on your move to 'Move', then change to 'roll dice'
-
 when a character buys a star, randomly choose a new star spot
 
 fine tune how players earn money so it's not obnoxious 
