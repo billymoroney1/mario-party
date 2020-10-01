@@ -60,8 +60,6 @@ body, html {
 }
 
 .buttons {
-    position: absolute;
-    bottom: 0;
     display: flex;
     justify-content: space-around;
 }
@@ -172,7 +170,6 @@ button {
     width: 400px;
     height: 400px;
     border: 1px solid black;
-    background-image: url('https://media3.giphy.com/media/YTtqB2j5EN7IA/200.gif');
     background-size: 400px 400px;
     justify-self: center;
     align-self: center;

@@ -29,7 +29,7 @@ const diceRoll = () => {
             if (diceNum > 0){
                 move(mario, mario.position, diceNum)
             } else if (diceNum === '0'){
-                computerMove()
+                computerRoll()
             }
         }, 2000)
         
@@ -152,7 +152,7 @@ const squareCheck = (square) => {
     }
     player1Info.innerText = `Mario \n Coins: ${mario.money} \n Stars: ${mario.stars}`
     //trigger computer move when the final square is tested
-    computerMove()
+    computerRoll()
 }
 //function that checks if player passes a star 
 //needs to clearInterval and restart it with remaining moves when player makes a decision
@@ -174,6 +174,9 @@ const player2 = document.querySelector('.player2')
 
 //buttons
 const buttons = document.querySelectorAll('button')
+
+//gif box
+const gifBox = document.querySelector('.gifBox')
 
 buttons[0].addEventListener('click', diceRoll)
 // buttons[1].addEventListener('click', chooseItem)
@@ -271,21 +274,36 @@ const move = (character, position, numOfSquares) => {
 }
 
 const computerStoreStarCheck = () => {
+    let pause
     if (donkeyKong.position === starPos){
         if (donkeyKong.money >= 20){
+            //show donkey kong banana gif
+            gifBox.style.backgroundImage = 'url("https://www.armortechs.com/upload/image/dkc_banana_hoard.gif")'
             donkeyKong.money -= 20
             donkeyKong.stars += 1
+            // get rid of banana gif
+            setTimeout(() => {
+                gifBox.style.backgroundImage = ""
+            }, 2000)
+            pause = true
         } 
     } else if (donkeyKong.position === storePos){
             if (donkeyKong.money >= 5){
+                //show donkey kong banana gif
+                gifBox.style.backgroundImage = 'url("https://i.gifer.com/wUH.gif")'
                 donkeyKong.money -= 5
                 donkeyKong.items.push('greenShell')
                 fillInventory('donkeyKong')
-                console.log('donkey kong buys a shell')
+                //get rid of gif
+                setTimeout(() => {
+                    gifBox.style.backgroundImage = ""
+                }, 2000)
                 //make sure donkey kong will use the item at the start of their turn
+                pause = true
             }
         }
         updateInfo('donkeyKong')
+        return pause
     }
 
 
@@ -328,7 +346,9 @@ const computerItemCheck = () => {
 }
 
 let dkMoving
-const computerMove = () => {
+const computerRoll = () => {
+    //make player options disappear
+    gameInfo.style.visibility = 'invisible'
     //make donkey kong appear beneath dice
     document.querySelector('.testPlayer').style.backgroundImage = "url('https://d3gqasl9vmjfd8.cloudfront.net/0b2aa3ba-f820-4ed0-8969-281d5dbf7507.png')"
     //make dice roll
@@ -344,6 +364,7 @@ const computerMove = () => {
         dice.classList.add('diceRoll')
         clearInterval(rolling)
         diceNum = dice.innerText
+        computerMove(diceNum)
     }, 1800)
     //clear dice text, donkey kong image, animation classes
     setTimeout(() => {
@@ -352,7 +373,9 @@ const computerMove = () => {
         dice.classList.remove('diceRoll')
         document.querySelector('.testPlayer').style.backgroundImage = ""
     }, 3000)
-    //delay move for after all of this completes
+    //delay move for after all of this complete
+}
+const computerMove = (diceNum) => {
     setTimeout(() => {
         computerItemCheck()
         console.log('Donkey kong rolled a ', diceNum)
@@ -360,7 +383,8 @@ const computerMove = () => {
         endX = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-column-end'))
         startY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-start'))
         endY = parseInt(window.getComputedStyle(player2).getPropertyValue('grid-row-end'))
-
+        //variable to decide if donkey kong needs to pause
+        let pause
             if (diceNum !== '0'){
                 console.log('dk diceNum not equal to 0')
                 dkMoving = setInterval(() => {
@@ -372,7 +396,7 @@ const computerMove = () => {
                         player2.style.gridColumnEnd = `${endX}`
                         donkeyKong.position++
                         //computer store check?
-                        computerStoreStarCheck()
+                        pause = computerStoreStarCheck()
                     } else if (donkeyKong.position < 9){
                         startY++
                         endY++
@@ -380,14 +404,14 @@ const computerMove = () => {
                         player2.style.gridRowEnd = `${endY}`
                         donkeyKong.position++
                         //computer store check?
-                        computerStoreStarCheck()
+                        pause = computerStoreStarCheck()
                     } else if (donkeyKong.position < 13){
                         startX--
                         endX--
                         player2.style.gridColumnStart = `${startX}`
                         player2.style.gridColumnEnd = `${endX}`
                         donkeyKong.position++
-                        computerStoreStarCheck()
+                        pause = computerStoreStarCheck()
                         // computer store check?
                     } else if (donkeyKong.position < 16){
                         startY--
@@ -395,7 +419,7 @@ const computerMove = () => {
                         player2.style.gridRowStart = `${startY}`
                         player2.style.gridRowEnd = `${endY}`
                         donkeyKong.position++
-                        computerStoreStarCheck()
+                        pause = computerStoreStarCheck()
                         //computer store check?
                     } else {
                         startX = 1
@@ -408,10 +432,15 @@ const computerMove = () => {
                         player2.style.gridRowEnd = `${endY}`
                         donkeyKong.position = 1
                         //computer store check?
-                        computerStoreStarCheck()
+                        pause = computerStoreStarCheck()
                     }
                     diceNum--
-
+                    if (pause){
+                        clearInterval(dkMoving)
+                        setTimeout(() => {
+                            computerMove(diceNum)
+                        }, 2000)
+                    }
                     if (diceNum <= 0){
                         clearInterval(dkMoving)
                         //computer store and square check?
@@ -429,6 +458,8 @@ const computerMove = () => {
         }
     }, 3000)
 }
+    
+
 
 
 const starAndStoreCheck = (pos, lastMove = false) => {
@@ -448,7 +479,7 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         buttons[0].addEventListener('click', buyStar)
         buttons[1].addEventListener('click', declineStar)
         if (lastMove === true){
-            computerMove()
+            computerRoll()
         }
     } else if (pos === storePos){
         clearInterval(moving)
@@ -464,7 +495,7 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         buttons[0].addEventListener('click', buyItem)
         buttons[1].addEventListener('click', declineItem)
         if (lastMove === true){
-            computerMove()
+            computerRoll()
         }
     }
 }
@@ -579,7 +610,20 @@ const turnOptions = () => {
     }
 }
 
-turnOptions()
+//function to display game start gif
+const gameStart = () => {
+    gifBox.style.backgroundImage = 'url("https://www.lukiegames.com/assets/images/N64/n64_mario_party_p_4p6j0j.jpg")'
+    setTimeout(() => {
+        gifBox.style.backgroundImage = ''
+    }, 2000)
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    gameStart()
+    setTimeout(() => {
+        turnOptions()
+    }, 2000)
+})
 
 //function to display up to three items where the move and item buttons usually are
 
