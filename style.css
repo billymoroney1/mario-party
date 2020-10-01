@@ -57,6 +57,7 @@ body, html {
     border: 1px solid black;
     text-align: center;
     position: relative;
+    visibility: hidden;
 }
 
 .buttons {

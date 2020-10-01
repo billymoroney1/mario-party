@@ -31,6 +31,10 @@ const diceRoll = () => {
             } else if (diceNum === '0'){
                 computerRoll()
             }
+        //make player options disappear
+        gameInfo.style.visibility = 'hidden'
+        buttons[0].style.visibility = 'hidden'
+        buttons[1].style.visibility = 'hidden'
         }, 2000)
         
         //remove the animation classes
@@ -347,8 +351,7 @@ const computerItemCheck = () => {
 
 let dkMoving
 const computerRoll = () => {
-    //make player options disappear
-    gameInfo.style.visibility = 'invisible'
+    
     //make donkey kong appear beneath dice
     document.querySelector('.testPlayer').style.backgroundImage = "url('https://d3gqasl9vmjfd8.cloudfront.net/0b2aa3ba-f820-4ed0-8969-281d5dbf7507.png')"
     //make dice roll
@@ -445,6 +448,9 @@ const computerMove = (diceNum) => {
                         clearInterval(dkMoving)
                         //computer store and square check?
                         computerSquareCheck()
+                        gameInfo.style.visibility = 'visible'
+                        buttons[0].style.visibility = 'visible'
+                        buttons[1].style.visibility = 'visible'
                     }
                 
             }, 500)
@@ -455,6 +461,13 @@ const computerMove = (diceNum) => {
             if (turns === 20){
                 document.querySelector('gameInfo').innerText = 'Game Over'
             }
+
+            //make player options reappear, whether or not dk rolled a 0
+            
+        } else {
+            gameInfo.style.visibility = 'visible'
+            buttons[0].style.visibility = 'visible'
+            buttons[1].style.visibility = 'visible'
         }
     }, 3000)
 }
@@ -468,8 +481,11 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         clearInterval(moving)
         //can i determine how many more squares left to move from here?
         document.querySelector('p').innerText = "Buy a star for 20 coins?"
+        document.querySelector('p').style.visibility = 'visible'
+        gameInfo.style.visibility = 'visible'
         buttons[0].innerText = 'Yes'
         buttons[1].innerText = 'No'
+        gameInfo.visibility = 'visible'
         buttons[0].style.visibility = 'visible'
         buttons[1].style.visibility = 'visible'
         //need to remove existing event listeners and place new ones, then put back old event listener when done with this logic
@@ -539,10 +555,16 @@ const buyStar = () => {
         changeStarToMove()
         move(mario, mario.position, remainingSquares)
     }
+    gameInfo.style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 const declineStar = () => {
     changeStarToMove()
     move(mario, mario.position, remainingSquares)
+    gameInfo.style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 
 const changeItemToMove = () => {
@@ -570,6 +592,9 @@ const buyItem = () => {
         move(mario, mario.position, remainingSquares)
     }
     updateInfo('mario')
+    gameInfo.style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 
 
@@ -604,6 +629,9 @@ const declineItem = () => {
 const turnOptions = () => {
     // change text in game info box
     document.querySelector('p').innerText = 'Your Turn!'
+    gameInfo.style.visibility = 'visible'
+    buttons[0].style.visibility = 'visible'
+    buttons[1].style.visibility = 'visible'
     // make the Move and Item buttons appear
     for (let i = 0; i < buttons.length; i++){
         buttons[i].style.visibility = 'visible'
