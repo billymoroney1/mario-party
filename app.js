@@ -331,6 +331,7 @@ const computerSquareCheck = () => {
 
 const computerItemCheck = () => {
     if (donkeyKong.items.includes('greenShell')){
+        gifBox.style.backgroundImage = 'url("https://64.media.tumblr.com/tumblr_m1k2zhACXQ1qcnzaso1_500.gifv")'
         if (mario.money - 5 < 0){
             mario.money = 0
         } else {
@@ -347,6 +348,9 @@ const computerItemCheck = () => {
         }
     }
     console.log('donkey kong uses an item')
+    setTimeout(() => {
+        gifBox.style.backgroundImage = ""
+    }, 1500)
     }
     updateInfo('donkeyKong')
     updateInfo('mario')
@@ -470,13 +474,14 @@ const computerMove = (diceNum) => {
             gameInfo.style.visibility = 'visible'
             buttons[0].style.visibility = 'visible'
             buttons[1].style.visibility = 'visible'
-            document.querySelector('p').style.visibility = 'hidden'
+            document.querySelector('p').style.visibility = 'visible'
         }
     }, 3000)
 }
     
 const starAndStoreCheck = (pos, lastMove = false) => {
     if (pos === starPos){
+        console.log('starcheck')
         //stop movement
         clearInterval(moving)
         //can i determine how many more squares left to move from here?
@@ -498,6 +503,7 @@ const starAndStoreCheck = (pos, lastMove = false) => {
             computerRoll()
         }
     } else if (pos === storePos){
+        console.log('storeCheck')
         clearInterval(moving)
         document.querySelector('p').innerText = 'Buy an item?'
         document.querySelector('p').style.visibility = 'visible'
@@ -515,6 +521,7 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         if (lastMove === true){
             computerRoll()
         }
+
     }
 }
 
@@ -536,6 +543,10 @@ const chooseItem = () => {
             }, 1500)
         }
     }
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 
 //some utility functions to change info in game info box
@@ -547,6 +558,11 @@ const changeStarToMove = () => {
     buttons[0].innerText = 'Roll'
     buttons[1].innerText = 'Item'
     document.querySelector('p').innerText = 'Your move'
+
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 const buyStar = () => {
     if (mario.money >= 20){
@@ -562,6 +578,7 @@ const buyStar = () => {
         move(mario, mario.position, remainingSquares)
     }
     gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
@@ -569,6 +586,7 @@ const declineStar = () => {
     changeStarToMove()
     move(mario, mario.position, remainingSquares)
     gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
@@ -581,6 +599,10 @@ const changeItemToMove = () => {
     buttons[0].innerText = 'Roll'
     buttons[1].innerText = 'Item'
     document.querySelector('p').innerText = 'Your move'
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 
 const buyItem = () => {
@@ -599,6 +621,7 @@ const buyItem = () => {
     }
     updateInfo('mario')
     gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
@@ -630,6 +653,10 @@ const fillInventory = (character) => {
 const declineItem = () => {
     changeItemToMove()
     move(mario, mario.position, remainingSquares)
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
 }
 
 const turnOptions = () => {
