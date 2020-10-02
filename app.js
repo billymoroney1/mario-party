@@ -593,6 +593,7 @@ const declineStarThenCPMove = () => {
 
 const buyItemThenCPMove = () => {
     if (mario.money >= 5) {
+        buttons[0].removeEventListener('click', buyItemThenCPMove)
         mario.money -= 5
         mario.items.push('greenShell')
         //function to update inventory div
@@ -702,6 +703,7 @@ const buyStar = () => {
 const declineStar = () => {
     changeStarToMove(false)
     move(mario, mario.position, remainingSquares)
+    document.querySelector('p').innerText = 'Your move'
     gameInfo.style.visibility = 'hidden'
     document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
