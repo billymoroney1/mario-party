@@ -602,7 +602,7 @@ const buyStarThenCPMove = () => {
 
 const declineStarThenCPMove = () => {
     changeStarToMove(true)
-    move(mario, mario.position, remainingSquares)
+    // move(mario, mario.position, remainingSquares)
     gameInfo.style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
