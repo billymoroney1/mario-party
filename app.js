@@ -669,6 +669,8 @@ const chooseItem = () => {
             setTimeout(() => {
                 gifBox.style.backgroundImage = ""
             }, 1500)
+
+            diceRoll()
         }
     }
     
@@ -689,7 +691,6 @@ const changeStarToMove = (cpMove) => {
     buttons[0].innerText = 'Move'
     buttons[1].innerText = 'Item'
 
-    document.querySelector('p').innerText = 'Your move'
     // document.querySelector('p').style.visibility = 'hidden'
     gameInfo.style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
