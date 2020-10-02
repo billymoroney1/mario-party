@@ -505,12 +505,18 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         //need to remove existing event listeners and place new ones, then put back old event listener when done with this logic
         buttons[0].removeEventListener('click', diceRoll)
         buttons[1].removeEventListener('click', chooseItem)
-        //need to restart movement in buyStar, declineStar functions
-        buttons[0].addEventListener('click', buyStar)
-        buttons[1].addEventListener('click', declineStar)
         if (lastMove === true){
-            computerRoll()
+            //need to restart movement in buyStar, declineStar functions
+            buttons[0].addEventListener('click', buyStarThenCPMove)
+            buttons[1].addEventListener('click', declineStarThenCPMove)
+        } else if (lastMove === false){
+            //need to restart movement in buyStar, declineStar functions
+            buttons[0].addEventListener('click', buyStar)
+            buttons[1].addEventListener('click', declineStar)
         }
+        // if (lastMove === true){
+        //     computerRoll()
+        // }
     } else if (pos === storePos){
         console.log('storeCheck')
         clearInterval(moving)
@@ -524,13 +530,84 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         //event listener swap that allows for purchase of items
         buttons[0].removeEventListener('click', diceRoll)
         buttons[1].removeEventListener('click', chooseItem)
+        if (lastMove === false){
         //need to restart movement in buyItem, declineItem functions
-        buttons[0].addEventListener('click', buyItem)
-        buttons[1].addEventListener('click', declineItem)
-        if (lastMove === true){
-            computerRoll()
+            buttons[0].addEventListener('click', buyItem)
+            buttons[1].addEventListener('click', declineItem)
+        } else if (lastMove === true){
+            buttons[0].addEventListener('click', buyItemThenCPMove)
+            buttons[1].addEventListener('click', declineItemThenCPMove)
         }
+        // if (lastMove === true){
+        //     computerRoll()
+        // }
     }
+}
+
+const buyStarThenCPMove = () => {
+    if (mario.money >= 20){
+        mario.money -= 20
+        mario.stars += 1
+        //revert game info box
+        changeStarToMove(true)
+        updateInfo('mario')
+        move(mario, mario.position, remainingSquares)
+    } else {
+        document.querySelector('p').innerText = 'Not enough cash!'
+        changeStarToMove(true)
+        move(mario, mario.position, remainingSquares)
+    }
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
+
+    computerRoll()
+}
+
+const declineStarThenCPMove = () => {
+    changeStarToMove(true)
+    move(mario, mario.position, remainingSquares)
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
+
+    computerRoll()
+}
+
+const buyItemThenCPMove = () => {
+    if (mario.money >= 5) {
+        mario.money -= 5
+        mario.items.push('greenShell')
+        //function to update inventory div
+        fillInventory('mario')
+        //change buttons and event listeners
+        changeItemToMove(true)
+        move(mario, mario.position, remainingSquares)
+    } else {
+        document.querySelector('p').innerText = 'Not enough cash!'
+        changeItemToMove(true)
+        move(mario, mario.position, remainingSquares)
+    }
+    updateInfo('mario')
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
+
+    computerRoll()
+}
+
+const declineItemThenCPMove = () => {
+    changeItemToMove(true)
+    move(mario, mario.position, remainingSquares)
+    gameInfo.style.visibility = 'hidden'
+    document.querySelector('p').style.visibility = 'hidden'
+    buttons[0].style.visibility = 'hidden'
+    buttons[1].style.visibility = 'hidden'
+
+    computerRoll()
 }
 
 //use green shell if available
@@ -558,9 +635,15 @@ const chooseItem = () => {
 }
 
 //some utility functions to change info in game info box
-const changeStarToMove = () => {
-    buttons[0].removeEventListener('click', buyStar)
-    buttons[1].removeEventListener('click', declineStar)
+const changeStarToMove = (cpMove) => {
+    if (cpMove === false){
+        buttons[0].removeEventListener('click', buyStar)
+        buttons[1].removeEventListener('click', declineStar)
+    } else if (cpMove === true){
+        buttons[0].removeEventListener('click', buyStarThenCPMove)
+        buttons[1].removeEventListener('click', declineStarThenCPMove)
+    }
+    
     buttons[0].addEventListener('click', diceRoll)
     buttons[1].addEventListener('click', chooseItem)
     buttons[0].innerText = 'Roll'
@@ -572,17 +655,18 @@ const changeStarToMove = () => {
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
+
 const buyStar = () => {
     if (mario.money >= 20){
         mario.money -= 20
         mario.stars += 1
         //revert game info box
-        changeStarToMove()
+        changeStarToMove(false)
         updateInfo('mario')
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
-        changeStarToMove()
+        changeStarToMove(false)
         move(mario, mario.position, remainingSquares)
     }
     gameInfo.style.visibility = 'hidden'
@@ -591,7 +675,7 @@ const buyStar = () => {
     buttons[1].style.visibility = 'hidden'
 }
 const declineStar = () => {
-    changeStarToMove()
+    changeStarToMove(false)
     move(mario, mario.position, remainingSquares)
     gameInfo.style.visibility = 'hidden'
     document.querySelector('p').style.visibility = 'hidden'
@@ -599,9 +683,15 @@ const declineStar = () => {
     buttons[1].style.visibility = 'hidden'
 }
 
-const changeItemToMove = () => {
-    buttons[0].removeEventListener('click', buyItem)
-    buttons[1].removeEventListener('click', declineItem)
+const changeItemToMove = (cpMove) => {
+    
+    if (cpMove === false){
+        buttons[0].removeEventListener('click', buyItem)
+        buttons[1].removeEventListener('click', declineItem)
+    } else if (cpMove === true){
+        buttons[0].removeEventListener('click', buyItemThenCPMove)
+        buttons[1].removeEventListener('click', declineItemThenCPMove)
+    }
     buttons[0].addEventListener('click', diceRoll)
     buttons[1].addEventListener('click', chooseItem)
     buttons[0].innerText = 'Roll'
@@ -620,11 +710,11 @@ const buyItem = () => {
         //function to update inventory div
         fillInventory('mario')
         //change buttons and event listeners
-        changeItemToMove()
+        changeItemToMove(false)
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
-        changeItemToMove()
+        changeItemToMove(false)
         move(mario, mario.position, remainingSquares)
     }
     updateInfo('mario')
@@ -659,7 +749,7 @@ const fillInventory = (character) => {
 
 
 const declineItem = () => {
-    changeItemToMove()
+    changeItemToMove(false)
     move(mario, mario.position, remainingSquares)
     gameInfo.style.visibility = 'hidden'
     document.querySelector('p').style.visibility = 'hidden'
