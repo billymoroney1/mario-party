@@ -484,7 +484,26 @@ const computerMove = (diceNum) => {
             console.log('dk diceNum: ', diceNum)
             console.log('Turns: ', turns)
             if (turns === 20){
-                document.querySelector('gameInfo').innerText = 'Game Over'
+                //compare amount of stars for win
+                if (mario.stars > donkeyKong.stars){
+                    document.querySelector('p').innerText = 'Game Over, Mario wins!'
+                    gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/GrippingDependentIvorybilledwoodpecker-size_restricted.gif")'
+                    setTimeout(() => {
+                        gifBox.style.backgroundImage = ""
+                    }, 3000)
+                } else if (mario.stars < donkeyKong.stars){
+                    document.querySelector('p').innerText = 'Game Over, Donkey Kong wins!'
+                    gifBox.style.backgroundImage = 'url("https://i.kym-cdn.com/photos/images/newsfeed/000/829/805/b76.gif")'
+                    setTimeout(() => {
+                        gifBox.style.backgroundImage = ""
+                    }, 3000)
+                } else {
+                    document.querySelector('p').innerText = "Game Over, it's a tie!"
+                    gifBox.style.backgroundImage = 'url("https://img3.goodfon.com/wallpaper/nbig/c/1c/donkey-kong-mario-pivo-bochka.jpg")'
+                    setTimeout(() => {
+                        gifBox.style.backgroundImage = ""
+                    }, 3000)
+                }
             }
 
             //make player options reappear, whether or not dk rolled a 0
