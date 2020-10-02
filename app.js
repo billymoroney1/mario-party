@@ -8,6 +8,7 @@ const diceRoll = () => {
         rolling = setInterval(()=>{dice.innerText = Math.floor(Math.random() * 10)}, 100)
         //make mario appear under dice
         document.querySelector('.testPlayer').style.backgroundImage = 'url("https://i.etsystatic.com/16581340/r/il/fbb2d9/1423191149/il_1588xN.1423191149_2ygc.jpg")'
+        buttons[0].innerText = 'Roll'
         //make items button disappear
         buttons[1].style.visibility = 'hidden'
     } 
@@ -36,6 +37,7 @@ const diceRoll = () => {
         //make player options disappear
         gameInfo.style.visibility = 'hidden'
         buttons[0].style.visibility = 'hidden'
+        buttons[0].innerText = 'Move'
         buttons[1].style.visibility = 'hidden'
         document.querySelector('p').style.visibility = 'hidden'
         }, 2000)
@@ -562,9 +564,11 @@ const buyStarThenCPMove = () => {
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
+        document.querySelector('p').style.visibility = 'visible'
         changeStarToMove(true)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
+            document.querySelector('p').style.visibility = 'invisible'
             gifBox.style.backgroundImage = ""
             move(mario, mario.position, remainingSquares)
         }, 1500)
@@ -599,9 +603,11 @@ const buyItemThenCPMove = () => {
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
+        document.querySelector('p').style.visibility = 'visible'
         changeItemToMove(true)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
+            document.querySelector('p').style.visibility = 'invisible'
             gifBox.style.backgroundImage = ""
             move(mario, mario.position, remainingSquares)
         }, 1500)
@@ -682,9 +688,11 @@ const buyStar = () => {
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
+        document.querySelector('p').style.visibility = 'visible'
         changeStarToMove(false)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
+            document.querySelector('p').style.visibility = 'invisible'
             gifBox.style.backgroundImage = ""
             move(mario, mario.position, remainingSquares)
         }, 1500)
@@ -734,10 +742,12 @@ const buyItem = () => {
         move(mario, mario.position, remainingSquares)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
+        document.querySelector('p').style.visibility = 'visible'
         changeItemToMove(false)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
             gifBox.style.backgroundImage = ""
+            document.querySelector('p').style.visibility = 'visible'
             move(mario, mario.position, remainingSquares)
         }, 1500)
     }
