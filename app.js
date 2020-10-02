@@ -581,6 +581,13 @@ const buyStarThenCPMove = () => {
         changeStarToMove(true)
         updateInfo('mario')
         move(mario, mario.position, remainingSquares)
+        gifBox.style.backgroundImage = 'url("https://media3.giphy.com/media/iEs4yXq5rVlL2/200.gif")'
+        setTimeout(() => {
+            document.querySelector('p').innerText = 'Your move'
+            document.querySelector('p').style.visibility = 'hidden'
+            gifBox.style.backgroundImage = ""
+            move(mario, mario.position, remainingSquares)
+        }, 1500)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         document.querySelector('p').style.visibility = 'visible'
