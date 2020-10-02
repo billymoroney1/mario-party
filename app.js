@@ -350,7 +350,7 @@ const computerSquareCheck = () => {
 const computerItemCheck = () => {
     if (donkeyKong.items.includes('greenShell')){
         gifBox.style.backgroundImage = 'url("https://64.media.tumblr.com/tumblr_m1k2zhACXQ1qcnzaso1_500.gifv")'
-        if (mario.money - 5 < 0){
+        if (mario.money - 5 <= 0){
             mario.money = 0
         } else {
             mario.money -= 5
@@ -667,7 +667,7 @@ const changeStarToMove = (cpMove) => {
     
     buttons[0].addEventListener('click', diceRoll)
     buttons[1].addEventListener('click', chooseItem)
-    buttons[0].innerText = 'Roll'
+    buttons[0].innerText = 'Move'
     buttons[1].innerText = 'Item'
 
     gameInfo.style.visibility = 'hidden'
@@ -719,7 +719,7 @@ const changeItemToMove = (cpMove) => {
     }
     buttons[0].addEventListener('click', diceRoll)
     buttons[1].addEventListener('click', chooseItem)
-    buttons[0].innerText = 'Roll'
+    buttons[0].innerText = 'Move'
     buttons[1].innerText = 'Item'
     gameInfo.style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
