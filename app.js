@@ -325,12 +325,20 @@ const computerStoreStarCheck = () => {
 const computerSquareCheck = () => {
     if (plusMoney.includes(donkeyKong.position)){
         donkeyKong.money += 50
+        gifBox.style.backgroundImage = 'url("https://media.tenor.com/images/b1b1756bffd985a7ff26e91a21e09804/tenor.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+        })
     } else if (minusMoney.includes(donkeyKong.position)){
         if (donkeyKong.money - 2 < 0) {
             donkeyKong.money = 0
         } else {
             donkeyKong.money -= 2
         }
+        gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/IllustriousAlertFieldspaniel-max-1mb.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+        }, 1500)
     }
     updateInfo('donkeyKong')
 }
@@ -555,7 +563,11 @@ const buyStarThenCPMove = () => {
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         changeStarToMove(true)
-        move(mario, mario.position, remainingSquares)
+        gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+            move(mario, mario.position, remainingSquares)
+        }, 1500)
     }
     gameInfo.style.visibility = 'hidden'
     document.querySelector('p').style.visibility = 'hidden'
@@ -588,7 +600,11 @@ const buyItemThenCPMove = () => {
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         changeItemToMove(true)
-        move(mario, mario.position, remainingSquares)
+        gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+            move(mario, mario.position, remainingSquares)
+        }, 1500)
     }
     updateInfo('mario')
     gameInfo.style.visibility = 'hidden'
@@ -667,7 +683,11 @@ const buyStar = () => {
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         changeStarToMove(false)
-        move(mario, mario.position, remainingSquares)
+        gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+            move(mario, mario.position, remainingSquares)
+        }, 1500)
     }
     gameInfo.style.visibility = 'hidden'
     document.querySelector('p').style.visibility = 'hidden'
@@ -715,7 +735,11 @@ const buyItem = () => {
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         changeItemToMove(false)
-        move(mario, mario.position, remainingSquares)
+        gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+            move(mario, mario.position, remainingSquares)
+        }, 1500)
     }
     updateInfo('mario')
     gameInfo.style.visibility = 'hidden'
