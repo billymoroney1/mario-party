@@ -782,6 +782,8 @@ const fillInventory = (character) => {
 const declineItem = () => {
     changeItemToMove(false)
     move(mario, mario.position, remainingSquares)
+    document.querySelector('p').innerText = 'Your move'
+    document.querySelector('p').style.visibility = 'hidden'
     gameInfo.style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
