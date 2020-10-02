@@ -762,6 +762,7 @@ const buyItem = () => {
         //change buttons and event listeners
         changeItemToMove(false)
         move(mario, mario.position, remainingSquares)
+        document.querySelector('p').innerText = 'Your move'
         document.querySelector('p').style.visibility = 'hidden'
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
