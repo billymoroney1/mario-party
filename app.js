@@ -483,7 +483,7 @@ const computerMove = (diceNum) => {
             //put end game process hear
             console.log('dk diceNum: ', diceNum)
             console.log('Turns: ', turns)
-            if (turns === 20){
+            if (turns >= 20){
                 //compare amount of stars for win
                 if (mario.stars > donkeyKong.stars){
                     document.querySelector('p').innerText = 'Game Over, Mario wins!'
@@ -669,10 +669,7 @@ const chooseItem = () => {
             }, 1500)
         }
     }
-    gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
-    buttons[0].style.visibility = 'hidden'
-    buttons[1].style.visibility = 'hidden'
+    
 }
 
 //some utility functions to change info in game info box
