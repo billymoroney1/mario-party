@@ -503,6 +503,9 @@ const computerMove = (diceNum) => {
                     setTimeout(() => {
                         gifBox.style.backgroundImage = ""
                     }, 3000)
+
+                buttons[0].style.visibility = 'hidden'
+                buttons[1].style.visibility = 'hidden'
                 }
             }
 
