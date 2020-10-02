@@ -690,6 +690,8 @@ const changeStarToMove = (cpMove) => {
     buttons[0].innerText = 'Move'
     buttons[1].innerText = 'Item'
 
+    document.querySelector('p').innerText = 'Your move'
+    document.querySelector('p').style.visibility = 'hidden'
     gameInfo.style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
@@ -703,6 +705,10 @@ const buyStar = () => {
         changeStarToMove(false)
         updateInfo('mario')
         move(mario, mario.position, remainingSquares)
+        gifBox.style.backgroundImage = 'url("https://media3.giphy.com/media/iEs4yXq5rVlL2/200.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+        }, 1500)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
         document.querySelector('p').style.visibility = 'visible'
