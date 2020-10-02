@@ -671,7 +671,6 @@ const changeStarToMove = (cpMove) => {
     buttons[1].innerText = 'Item'
 
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
