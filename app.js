@@ -350,10 +350,10 @@ const computerSquareCheck = () => {
 const computerItemCheck = () => {
     if (donkeyKong.items.includes('greenShell')){
         gifBox.style.backgroundImage = 'url("https://64.media.tumblr.com/tumblr_m1k2zhACXQ1qcnzaso1_500.gifv")'
-        if (mario.money - 5 <= 0){
+        if (mario.money - 10 <= 0){
             mario.money = 0
         } else {
-            mario.money -= 5
+            mario.money -= 10
         }
         donkeyKong.items.pop()
         let items = document.querySelectorAll('.DKitems')
@@ -657,9 +657,11 @@ const chooseItem = () => {
     for (let i = items.length - 1; i >= 0; i--){
         if (items[i].classList.contains('greenShell')){
             gifBox.style.backgroundImage = 'url("https://pa1.narvii.com/6357/276364aba4b4f524766d1252bd53386cd4792917_00.gif")'
-            console.log('donkeyKong.money ', donkeyKong.money)
-            donkeyKong.money -= 3
-            console.log('donkeyKong.money ', donkeyKong.money)
+            if (donkeyKong.money - 10 >= 0){
+                donkeyKong.money -= 10
+            } else {
+                donkeyKong.money = 0
+            }
             items[i].classList.remove('greenShell')
             mario.items.pop()
             i = -1
