@@ -150,12 +150,20 @@ const updateInfo = (character) => {
 const squareCheck = (square) => {
     if (plusMoney.includes(square)){
         mario.money += 50
+        gifBox.style.backgroundImage = 'url("https://media.tenor.com/images/35b07a9e7f2746fce6048419053d435c/tenor.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+        }, 1500)
     } else if (minusMoney.includes(square)){
         if (mario.money - 2 < 0){
             mario.money = 0
         } else {
             mario.money -= 2
         }
+        gifBox.style.backgroundImage = 'url("https://i.kym-cdn.com/photos/images/newsfeed/001/149/747/a0a.gif")'
+        setTimeout(() => {
+            gifBox.style.backgroundImage = ""
+        }, 1500)
     }
     player1Info.innerText = `Mario \n Coins: ${mario.money} \n Stars: ${mario.stars}`
     //trigger computer move when the final square is tested
@@ -457,6 +465,7 @@ const computerMove = (diceNum) => {
                         gameInfo.style.visibility = 'visible'
                         buttons[0].style.visibility = 'visible'
                         buttons[1].style.visibility = 'visible'
+                        document.querySelector('p').style.visibility = 'visible'
                     }
                 
             }, 500)
@@ -476,7 +485,7 @@ const computerMove = (diceNum) => {
             buttons[1].style.visibility = 'visible'
             document.querySelector('p').style.visibility = 'visible'
         }
-    }, 3000)
+    }, 1500)
 }
     
 const starAndStoreCheck = (pos, lastMove = false) => {
@@ -521,7 +530,6 @@ const starAndStoreCheck = (pos, lastMove = false) => {
         if (lastMove === true){
             computerRoll()
         }
-
     }
 }
 
