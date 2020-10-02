@@ -151,7 +151,7 @@ const updateInfo = (character) => {
 //function that tests what square a player lands on
 const squareCheck = (square) => {
     if (plusMoney.includes(square)){
-        mario.money += 50
+        mario.money += 10
         gifBox.style.backgroundImage = 'url("https://media.tenor.com/images/35b07a9e7f2746fce6048419053d435c/tenor.gif")'
         setTimeout(() => {
             gifBox.style.backgroundImage = ""
@@ -326,11 +326,11 @@ const computerStoreStarCheck = () => {
 
 const computerSquareCheck = () => {
     if (plusMoney.includes(donkeyKong.position)){
-        donkeyKong.money += 50
+        donkeyKong.money += 10
         gifBox.style.backgroundImage = 'url("https://media.tenor.com/images/b1b1756bffd985a7ff26e91a21e09804/tenor.gif")'
         setTimeout(() => {
             gifBox.style.backgroundImage = ""
-        })
+        }, 1500)
     } else if (minusMoney.includes(donkeyKong.position)){
         if (donkeyKong.money - 2 < 0) {
             donkeyKong.money = 0
@@ -568,13 +568,13 @@ const buyStarThenCPMove = () => {
         changeStarToMove(true)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
-            document.querySelector('p').style.visibility = 'invisible'
+            document.querySelector('p').innerText = 'Your move'
+            document.querySelector('p').style.visibility = 'hidden'
             gifBox.style.backgroundImage = ""
             move(mario, mario.position, remainingSquares)
         }, 1500)
     }
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 
@@ -585,7 +585,6 @@ const declineStarThenCPMove = () => {
     changeStarToMove(true)
     move(mario, mario.position, remainingSquares)
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 
@@ -607,14 +606,14 @@ const buyItemThenCPMove = () => {
         changeItemToMove(true)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
-            document.querySelector('p').style.visibility = 'invisible'
+            document.querySelector('p').innerText = 'Your move'
+            document.querySelector('p').style.visibility = 'hidden'
             gifBox.style.backgroundImage = ""
             move(mario, mario.position, remainingSquares)
         }, 1500)
     }
     updateInfo('mario')
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 
@@ -670,7 +669,6 @@ const changeStarToMove = (cpMove) => {
     buttons[1].addEventListener('click', chooseItem)
     buttons[0].innerText = 'Roll'
     buttons[1].innerText = 'Item'
-    document.querySelector('p').innerText = 'Your move'
 
     gameInfo.style.visibility = 'hidden'
     document.querySelector('p').style.visibility = 'hidden'
@@ -692,13 +690,13 @@ const buyStar = () => {
         changeStarToMove(false)
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
-            document.querySelector('p').style.visibility = 'invisible'
+            document.querySelector('p').innerText = 'Your move'
+            document.querySelector('p').style.visibility = 'hidden'
             gifBox.style.backgroundImage = ""
             move(mario, mario.position, remainingSquares)
         }, 1500)
     }
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
@@ -724,9 +722,7 @@ const changeItemToMove = (cpMove) => {
     buttons[1].addEventListener('click', chooseItem)
     buttons[0].innerText = 'Roll'
     buttons[1].innerText = 'Item'
-    document.querySelector('p').innerText = 'Your move'
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
@@ -747,13 +743,13 @@ const buyItem = () => {
         gifBox.style.backgroundImage = 'url("https://thumbs.gfycat.com/MellowParallelClingfish-size_restricted.gif")'
         setTimeout(() => {
             gifBox.style.backgroundImage = ""
-            document.querySelector('p').style.visibility = 'visible'
+            document.querySelector('p').innerText = 'Your move'
+            document.querySelector('p').style.visibility = 'hidden'
             move(mario, mario.position, remainingSquares)
         }, 1500)
     }
     updateInfo('mario')
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
@@ -786,7 +782,6 @@ const declineItem = () => {
     changeItemToMove(false)
     move(mario, mario.position, remainingSquares)
     gameInfo.style.visibility = 'hidden'
-    document.querySelector('p').style.visibility = 'hidden'
     buttons[0].style.visibility = 'hidden'
     buttons[1].style.visibility = 'hidden'
 }
