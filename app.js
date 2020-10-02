@@ -476,6 +476,10 @@ const computerMove = (diceNum) => {
                         buttons[0].style.visibility = 'visible'
                         buttons[1].style.visibility = 'visible'
                         document.querySelector('p').style.visibility = 'visible'
+                        if (turns === 19){
+                            buttons[0].style.visibility = 'hidden'
+                            buttons[1].style.visibility = 'hidden'
+                        }
                     }
                 
             }, 500)
@@ -504,8 +508,7 @@ const computerMove = (diceNum) => {
                         gifBox.style.backgroundImage = ""
                     }, 3000)
 
-                buttons[0].style.visibility = 'hidden'
-                buttons[1].style.visibility = 'hidden'
+                
                 }
             }
 
@@ -718,6 +721,8 @@ const buyStar = () => {
         gifBox.style.backgroundImage = 'url("https://media3.giphy.com/media/iEs4yXq5rVlL2/200.gif")'
         setTimeout(() => {
             gifBox.style.backgroundImage = ""
+            document.querySelector('p').innerText = 'Your move'
+            document.querySelector('p').style.visibility = 'hidden'
         }, 1500)
     } else {
         document.querySelector('p').innerText = 'Not enough cash!'
