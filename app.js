@@ -476,7 +476,7 @@ const computerMove = (diceNum) => {
                         buttons[0].style.visibility = 'visible'
                         buttons[1].style.visibility = 'visible'
                         document.querySelector('p').style.visibility = 'visible'
-                        if (turns === 19){
+                        if (turns === 20){
                             buttons[0].style.visibility = 'hidden'
                             buttons[1].style.visibility = 'hidden'
                         }
